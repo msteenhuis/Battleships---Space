@@ -1,21 +1,22 @@
+import java.util.ArrayList;
 public class Ships {
 
-    private int[] coordinate;
+    private ArrayList<Coordinate> coordArr;
     private Ability attribute;
+    private boolean isHit;
     private String classType;
-    private boolean[] isHit;
 
-    public Ships(int[] coordinate, Ability attribute, String classType, boolean[] isHit)
+    public Ships(ArrayList<Coordinate> coordArr, Ability attribute, String classType)
     {
-        this.coordinate = coordinate;
+        this.coordArr = coordArr;
         this.attribute = attribute;
         this.classType = classType;
-        this.isHit = isHit;
+        this.isHit = false;
     }
 
-    public int[] getCoordinate()
+    public ArrayList<Coordinate> getCoordArr()
     {
-        return coordinate;
+        return coordArr;
     }
 
     public Ability getAttribute()
@@ -28,19 +29,38 @@ public class Ships {
         return classType;
     }
 
-    public boolean[] getIsHit()
+    public boolean getIsHit()
     {
+        for (Coordinate v : coordArr)
+        {
+            if (v.getShipDamaged() == true)
+            {
+                isHit = true;
+            }
+        }
         return isHit;
+    }
+
+    public void damageShip(Coordinate c)
+    {
+        for (Coordinate v : coordArr)
+        {
+            if ((v.getXCoord() == c.getXCoord()) && (v.getYCoord() == c.getYCoord()) && (v.getZCoord() == c.getZCoord()))
+            {
+                v.setShipDamaged();
+            }
+        }
+
     }
 
     public boolean isDestroyed(Ships s)
     {
         boolean output = true;
         int counter = 0;
-        boolean[] arr = getIsHit();
-        for (int i = 0; i < arr.length; i++)
+
+        for (Coordinate v : coordArr)
         {
-            if (arr[i] != true)
+            if (v.getShipDamaged() != true)
             {
                 output = false;
                 counter++;
