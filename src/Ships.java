@@ -2,14 +2,12 @@ import java.util.ArrayList;
 public class Ships {
 
     private ArrayList<Coordinate> coordArr;
-    private Ability attribute;
     private boolean isHit;
     private String classType;
 
-    public Ships(ArrayList<Coordinate> coordArr, Ability attribute, String classType)
+    public Ships(ArrayList<Coordinate> coordArr, String classType)
     {
         this.coordArr = coordArr;
-        this.attribute = attribute;
         this.classType = classType;
         this.isHit = false;
     }
@@ -17,11 +15,6 @@ public class Ships {
     public ArrayList<Coordinate> getCoordArr()
     {
         return coordArr;
-    }
-
-    public Ability getAttribute()
-    {
-        return attribute;
     }
 
     public String getClassType()

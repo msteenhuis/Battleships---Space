@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Carrier extends Ships{
-    public Carrier (ArrayList<Coordinate> c, Ability a, String t)
+    public Carrier (ArrayList<Coordinate> c, String t)
     {
-        super(c, a, t);
+        super(c, t);
     }
 }

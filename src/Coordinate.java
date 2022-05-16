@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Coordinate {
     private int xCoord;
     private int yCoord;
@@ -28,6 +30,23 @@ public class Coordinate {
     public int getZCoord()
     {
         return zCoord;
+    }
+
+    public boolean isShipHere(ArrayList<Ships> shipArr, Coordinate c)
+    {
+        boolean output = false;
+        for (Ships v : shipArr)
+        {
+            ArrayList<Coordinate> tempArr = v.getCoordArr();
+            for ( int i = 0; i < tempArr.size(); i++)
+            {
+                if ((tempArr.get(i).getXCoord() == c.getXCoord()) && (tempArr.get(i).getYCoord() == c.getYCoord()) && (tempArr.get(i).getZCoord() == c.getZCoord()))
+                {
+                    output = true;
+                }
+            }
+        }
+        return output;
     }
 
     public boolean getShipDamaged()

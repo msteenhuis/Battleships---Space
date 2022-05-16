@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Battleship extends Ships{
-    public Battleship (ArrayList<Coordinate> c, Ability a, String t)
+    public Battleship (ArrayList<Coordinate> c, String t)
     {
-        super(c, a, t);
+        super(c, t);
     }
 }
