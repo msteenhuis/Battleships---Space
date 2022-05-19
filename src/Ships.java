@@ -4,12 +4,21 @@ public class Ships {
     private ArrayList<Coordinate> coordArr;
     private boolean isHit;
     private String classType;
+    private String ability;
 
-    public Ships(ArrayList<Coordinate> coordArr, String classType)
+    public Ships(ArrayList<Coordinate> coordArr, String classType, String ability)
     {
         this.coordArr = coordArr;
         this.classType = classType;
         this.isHit = false;
+        this.ability = ability;
+    }
+
+    public Ships(String classType, String ability)
+    {
+        this.classType = classType;
+        this.isHit = false;
+        this.ability = ability;
     }
 
     public ArrayList<Coordinate> getCoordArr()
@@ -32,6 +41,11 @@ public class Ships {
             }
         }
         return isHit;
+    }
+
+    public String getAbility()
+    {
+        return ability;
     }
 
     public void damageShip(Coordinate c)

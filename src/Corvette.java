@@ -2,15 +2,16 @@ import java.util.ArrayList;
 
 public class Corvette extends Ships{
 
-    private String ability;
-
     public Corvette (ArrayList<Coordinate> c, String t, String a)
     {
-        super(c, t);
-        this.ability = a;
+        super(c,t,a);
+    }
+    public Corvette (String t, String a)
+    {
+        super(t,a);
     }
 
-    public void Scout(Coordinate c)
+    public void Scout(Coordinate c, Coordinate[][][] map)
     {
         if (-1 < c.getXCoord() - 1 || 11 > c.getXCoord() + 1 || -1 < c.getYCoord() - 1 || 11 > c.getYCoord() + 1 || -1 < c.getZCoord() - 1 || 11 > c.getZCoord() + 1 )
         {
@@ -22,7 +23,7 @@ public class Corvette extends Ships{
                     {
                         if (c.isShipHere(shipArr, map[x][y][z]) == true)
                         {
-
+                            c.reveal(map);
                         }
                     }
                 }

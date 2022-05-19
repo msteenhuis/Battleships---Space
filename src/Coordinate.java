@@ -7,6 +7,7 @@ public class Coordinate {
     private boolean abilityHere;
     private boolean shipHere;
     private boolean shipDamaged;
+    public boolean amRevealed;
 
     public Coordinate (int x, int y, int z, boolean a, boolean s, boolean d)
     {
@@ -49,12 +50,43 @@ public class Coordinate {
         return output;
     }
 
+    public boolean getShipHere()
+    {
+        return shipHere;
+    }
+
+    public boolean getAmRevealed()
+    {
+        return amRevealed;
+    }
+
     public boolean getShipDamaged()
     {
         return shipDamaged;
     }
+
     public void setShipDamaged()
     {
         shipDamaged = true;
+    }
+
+    public String toString()
+    {
+        String output = "";
+        if(this.getAmRevealed())
+        {
+            if(this.getShipHere())
+            {
+                if(this.getShipDamaged())
+                {
+                    output = "X";
+                }
+                else
+                {
+                    output = "▇";
+                }
+            }
+        }
+        return output;
     }
 }
