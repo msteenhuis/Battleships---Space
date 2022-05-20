@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Corvette extends Ships{
 
-    public Corvette (ArrayList<Coordinate> c, String t, String a)
+    public Corvette (ArrayList<Coordinate> c, String t, String a, int len)
     {
         super(c,t,a);
     }
@@ -21,9 +21,9 @@ public class Corvette extends Ships{
                 {
                     for (int y = c.getYCoord() - 1; y < c.getYCoord() + 2; y++)
                     {
-                        if (c.isShipHere(shipArr, map[x][y][z]) == true)
+                        if (c.getShipHere())
                         {
-                            c.reveal(map);
+                            c.setReveal(true);
                         }
                     }
                 }

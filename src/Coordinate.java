@@ -7,9 +7,10 @@ public class Coordinate {
     private boolean abilityHere;
     private boolean shipHere;
     private boolean shipDamaged;
-    public boolean amRevealed;
+    private boolean amRevealed;
+    private String mapText;
 
-    public Coordinate (int x, int y, int z, boolean a, boolean s, boolean d)
+    public Coordinate (int x, int y, int z, boolean a, boolean s, String m)
     {
         this.xCoord = x;
         this.yCoord = y;
@@ -17,6 +18,12 @@ public class Coordinate {
         this.abilityHere = a;
         this.shipHere = s;
         this.shipDamaged = false;
+        this.mapText = m;
+    }
+
+    public String getMapText()
+    {
+        return mapText;
     }
 
     public int getXCoord() {
@@ -88,5 +95,17 @@ public class Coordinate {
             }
         }
         return output;
+    }
+
+    public void setReveal(boolean b)
+    {
+        if (b)
+        {
+            amRevealed = true;
+        }
+        else
+        {
+            amRevealed = false;
+        }
     }
 }
