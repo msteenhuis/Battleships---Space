@@ -4,10 +4,6 @@ public class Destroyer extends Ships{
 
     public Destroyer (ArrayList<Coordinate> c, String t, String a, int len)
     {
-        super(c,t,a);
-    }
-    public Destroyer (String t, String a)
-    {
-        super(t,a);
+        super(c,t,a,len);
     }
 }

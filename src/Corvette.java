@@ -4,11 +4,7 @@ public class Corvette extends Ships{
 
     public Corvette (ArrayList<Coordinate> c, String t, String a, int len)
     {
-        super(c,t,a);
-    }
-    public Corvette (String t, String a)
-    {
-        super(t,a);
+        super(c,t,a,len);
     }
 
     public void Scout(Coordinate c, Coordinate[][][] map)

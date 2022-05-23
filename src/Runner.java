@@ -6,6 +6,8 @@ public class Runner {
         Coordinate[][][] map = g.getMap1();
         ArrayList<Ships> arr = g.getPlayer1();
         g.setMap(map);
+        //g.printMap(map);
+        g.placeShips(map,arr);
         g.printMap(map);
     }
 }

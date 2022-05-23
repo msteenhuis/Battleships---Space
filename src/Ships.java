@@ -7,20 +7,13 @@ public class Ships {
     private String ability;
     private int len;
 
-    public Ships(ArrayList<Coordinate> coordArr, String classType, String ability, int len)
+    public Ships(ArrayList<Coordinate> coordArr, String classType, String ability, int l)
     {
         this.coordArr = coordArr;
         this.classType = classType;
         this.isHit = false;
         this.ability = ability;
         this.len = len;
-    }
-
-    public Ships(String classType, String ability)
-    {
-        this.classType = classType;
-        this.isHit = false;
-        this.ability = ability;
     }
 
     public int getLen()

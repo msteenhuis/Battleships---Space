@@ -4,10 +4,6 @@ public class Carrier extends Ships{
 
     public Carrier (ArrayList<Coordinate> c, String t, String a, int len)
     {
-        super(c,t,a);
-    }
-    public Carrier (String t, String a)
-    {
-        super(t,a);
+        super(c,t,a,len);
     }
 }

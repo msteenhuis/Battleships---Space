@@ -77,7 +77,7 @@ public class Coordinate {
         shipDamaged = true;
     }
 
-    public String toString()
+    public String mapString()
     {
         String output = "";
         if(this.getAmRevealed())
@@ -95,6 +95,11 @@ public class Coordinate {
             }
         }
         return output;
+    }
+
+    public String toString()
+    {
+        return "(" + this.getXCoord() + ", " + this.getYCoord() + ", " + this.getZCoord() + ")";
     }
 
     public void setReveal(boolean b)

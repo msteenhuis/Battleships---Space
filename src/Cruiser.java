@@ -4,10 +4,6 @@ public class Cruiser extends Ships{
 
     public Cruiser (ArrayList<Coordinate> c, String t, String a, int len)
     {
-        super(c,t,a);
-    }
-    public Cruiser (String t, String a)
-    {
-        super(t,a);
+        super(c,t,a,len);
     }
 }

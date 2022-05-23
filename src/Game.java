@@ -11,13 +11,21 @@ public class Game {
 
     public Game()
     {
-        Ships c11 = new Corvette ("Corvette", "Scout");
-        Ships c12 = new Corvette ("Corvette", "Scout");
-        Ships d11 = new Destroyer ("Destroyer", "Laser");
-        Ships d12 = new Destroyer ("Destroyer", "Laser");
-        Ships cr1 = new Cruiser ("Cruiser", "Torpedo");
-        Ships b1 = new Battleship ("Battleship", "Shell");
-        Ships ca1 = new Carrier ("Carrier", "Fighter Wing");
+        ArrayList<Coordinate> cArr11 = new ArrayList<>();
+        ArrayList<Coordinate> cArr12 = new ArrayList<>();
+        ArrayList<Coordinate> dArr11 = new ArrayList<>();
+        ArrayList<Coordinate> dArr12 = new ArrayList<>();
+        ArrayList<Coordinate> crArr1 = new ArrayList<>();
+        ArrayList<Coordinate> bArr1 = new ArrayList<>();
+        ArrayList<Coordinate> caArr1 = new ArrayList<>();
+
+        Ships c11 = new Corvette (cArr11,"Corvette", "Scout", 3);
+        Ships c12 = new Corvette (cArr12,"Corvette", "Scout", 3);
+        Ships d11 = new Destroyer (dArr11,"Destroyer", "Laser", 4);
+        Ships d12 = new Destroyer (dArr12,"Destroyer", "Laser", 4);
+        Ships cr1 = new Cruiser (crArr1,"Cruiser", "Torpedo", 5);
+        Ships b1 = new Battleship (bArr1,"Battleship", "Shell", 6);
+        Ships ca1 = new Carrier (caArr1,"Carrier", "Fighter Wing", 6);
 
         player1.add(c11);
         player1.add(c12);
@@ -27,13 +35,21 @@ public class Game {
         player1.add(b1);
         player1.add(ca1);
 
-        Ships c21 = new Corvette ("Corvette", "Scout");
-        Ships c22 = new Corvette ("Corvette", "Scout");
-        Ships d21 = new Destroyer ("Destroyer", "Laser");
-        Ships d22 = new Destroyer ("Destroyer", "Laser");
-        Ships cr2 = new Cruiser ("Cruiser", "Torpedo");
-        Ships b2 = new Battleship ("Battleship", "Shell");
-        Ships ca2 = new Carrier ("Carrier", "Fighter Wing");
+        ArrayList<Coordinate> cArr21 = new ArrayList<>();
+        ArrayList<Coordinate> cArr22 = new ArrayList<>();
+        ArrayList<Coordinate> dArr21 = new ArrayList<>();
+        ArrayList<Coordinate> drArr22 = new ArrayList<>();
+        ArrayList<Coordinate> crArr2 = new ArrayList<>();
+        ArrayList<Coordinate> bArr2 = new ArrayList<>();
+        ArrayList<Coordinate> caArr2 = new ArrayList<>();
+
+        Ships c21 = new Corvette (cArr21,"Corvette", "Scout", 3);
+        Ships c22 = new Corvette (cArr22,"Corvette", "Scout", 3);
+        Ships d21 = new Destroyer (dArr21,"Destroyer", "Laser", 4);
+        Ships d22 = new Destroyer (drArr22,"Destroyer", "Laser", 4);
+        Ships cr2 = new Cruiser (crArr2,"Cruiser", "Torpedo", 5);
+        Ships b2 = new Battleship (bArr2,"Battleship", "Shell", 6);
+        Ships ca2 = new Carrier (caArr2,"Carrier", "Fighter Wing", 6);
 
         player1.add(c21);
         player1.add(c22);
@@ -91,7 +107,7 @@ public class Game {
     }
 
 
-    public void printMap(Coordinate[][][] m)
+    public static void printMap(Coordinate[][][] m)
     {
         System.out.println("XY View");
         System.out.println("0  1  2  3  4  5  6  7  8  9  10");
@@ -107,50 +123,124 @@ public class Game {
             }
             System.out.println();
         }
+        System.out.println();
 
+        System.out.println("YZ View");
+        System.out.println("0  1  2  3  4  5  6  7  8  9  10");
+        for(int y = 0; y < 10; y++)
+        {
+            System.out.print(y+1 + " ");
+            for (int z = 0; z < 10; z++)
+            {
+                for (int x = 0; x < 10; x++)
+                {
+                    System.out.print(m[x][y][z].getMapText() + " ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        System.out.println("XZ View");
+        System.out.println("0  1  2  3  4  5  6  7  8  9  10");
+        for(int x = 0; x < 10; x++)
+        {
+            System.out.print(x+1 + " ");
+            for (int z = 0; z < 10; z++)
+            {
+                for (int y = 0; y < 10; y++)
+                {
+                    System.out.print(m[x][y][z].getMapText() + " ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     public boolean collision(ArrayList<Ships> arr)
     {
-        return false;
-    }
+        boolean output = true;
+        return output;
+
+    } // Check to see if a coordinate may have two ships or not.
 
     public void placeShips(Coordinate[][][] map, ArrayList<Ships> arr)
     {
         Scanner input = new Scanner(System.in);
-        String coord = "";
         String direction = "";
-        int x;
-        int y;
-        int z;
+        int x = 0;
+        int y = 0;
+        int z = 0;
         boolean isValid = false;
         for (int i = 0; i < arr.size(); i++)
         {
-            while (!isValid) {
-                System.out.print("Input the coordinates for your " + arr.get(i).getClassType() + ".\n Input in this format: x y z");
-                coord = input.nextLine();
-                int start = coord.indexOf(" ");
-                x = Integer.parseInt(coord.substring(0, start));
-                coord = coord.substring(start);
-                start = coord.indexOf(" ");
-                y = Integer.parseInt(coord.substring(start + 1, start));
-                coord = coord.substring(start);
-                start = coord.indexOf(" ");
-                z = Integer.parseInt(coord.substring(start + 1));
-                System.out.print("Input the direction you would like your ship to face, vertically or horizontally. \nTo select vertical, input (v). To select horizontal, input (h).");
-                direction = input.nextLine();
-                isValid = collision(arr);
-                for (int j = 0; j < arr.get(i).getLen(); j++) {
-                    Coordinate temp = new Coordinate(x, y, z, false, false, "█");
+            System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
+            x = Integer.parseInt(input.nextLine());
+            System.out.println("Input the Y coordinate for your " + arr.get(i).getClassType() + ".");
+            y = Integer.parseInt(input.nextLine());
+            System.out.println("Input the Z coordinate for your " + arr.get(i).getClassType() + ".");
+            z = Integer.parseInt(input.nextLine());
+
+            System.out.print("Input the direction you would like your ship to face, vertically or horizontally. \nTo select vertical, input (v). To select horizontal, input (h).");
+            direction = input.nextLine();
+
+            for (int j = 0; j < arr.get(i).getLen(); j++) {
+                Coordinate temp = new Coordinate(x, y, z, false, false, "█");
+                if (direction.equals("v")){
+                    arr.get(i).getCoordArr().add(temp);
+                    y--;
                 }
-                if (i < 3) {
-                    Ships shipTemp = ()
+                if (direction.equals("h")){
+                    arr.get(i).getCoordArr().add(temp);
+                    x--;
                 }
             }
+            isValid = collision(arr);
+
+            while (!isValid) {
+                System.out.print("error");
+                System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
+                x = Integer.parseInt(input.nextLine());
+                System.out.println("Input the Y coordinate for your " + arr.get(i).getClassType() + ".");
+                y = Integer.parseInt(input.nextLine());
+                System.out.println("Input the Z coordinate for your " + arr.get(i).getClassType() + ".");
+                z = Integer.parseInt(input.nextLine());
+
+                System.out.print("Input the direction you would like your ship to face, vertically or horizontally. \nTo select vertical, input (v). To select horizontal, input (h).");
+                direction = input.nextLine();
+                for (int j = 0; j < arr.get(i).getLen(); j++) {
+                    Coordinate temp = new Coordinate(x, y, z, false, false, "█");
+                    if (direction.equals("v")){
+                        arr.get(i).getCoordArr().add(temp);
+                        y--;
+                    }
+                    if (direction.equals("h")){
+                        arr.get(i).getCoordArr().add(temp);
+                        x--;
+                    }
+                }
+                isValid = collision(arr);
+            }
+
+            for (int k = 0; k < arr.get(i).getLen(); k++) {
+                Coordinate Temp;
+                if (direction.equals("v")){
+                    Temp = map[x][y][z];
+                    System.out.println(map[x][y][z].getMapText());
+                    arr.get(i).getCoordArr().add(Temp);
+
+                    y--;
+                }
+                else{
+                    Temp = map[x][y][z];
+                    System.out.println(map[x][y][z].getMapText());
+                    arr.get(i).getCoordArr().add(Temp);
+                    x--;
+                }
+            }
+            System.out.println("Ship added!");
+            }
         }
-    }
-
-
-
 
 }
