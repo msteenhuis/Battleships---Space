@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Runner {
+public class PlayBattleships {
     public static void main(String[] args) {
-        Game g = new Game();
+        MethodBank g = new MethodBank();
         Coordinate[][][] map = g.getMap1();
         ArrayList<Ships> arr = g.getPlayer1();
         g.setMap(map);
         //g.printMap(map);
-        g.placeShips(map,arr);
+        map[3][3][3].setMapText("█");
         g.printMap(map);
     }
 }

@@ -62,6 +62,11 @@ public class Coordinate {
         return shipHere;
     }
 
+    public void setMapText(String c)
+    {
+        mapText = c;
+    }
+
     public boolean getAmRevealed()
     {
         return amRevealed;

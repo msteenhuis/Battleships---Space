@@ -1,15 +1,14 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Game {
+public class MethodBank {
 
     private ArrayList<Ships> player1 = new ArrayList<>();
     private ArrayList<Ships> player2 = new ArrayList<>();
     private Coordinate[][][] map1;
     private Coordinate[][][] map2;
 
-    public Game()
+    public MethodBank()
     {
         ArrayList<Coordinate> cArr11 = new ArrayList<>();
         ArrayList<Coordinate> cArr12 = new ArrayList<>();
@@ -51,13 +50,13 @@ public class Game {
         Ships b2 = new Battleship (bArr2,"Battleship", "Shell", 6);
         Ships ca2 = new Carrier (caArr2,"Carrier", "Fighter Wing", 6);
 
-        player1.add(c21);
-        player1.add(c22);
-        player1.add(d21);
-        player1.add(d22);
-        player1.add(cr2);
-        player1.add(b2);
-        player1.add(ca2);
+        player2.add(c21);
+        player2.add(c22);
+        player2.add(d21);
+        player2.add(d22);
+        player2.add(cr2);
+        player2.add(b2);
+        player2.add(ca2);
 
         this.map1 = new Coordinate[10][10][10];
         this.map2 = new Coordinate[10][10][10];
@@ -109,48 +108,18 @@ public class Game {
 
     public static void printMap(Coordinate[][][] m)
     {
-        System.out.println("XY View");
-        System.out.println("0  1  2  3  4  5  6  7  8  9  10");
-        for(int x = 0; x < 10; x++)
+        System.out.println("  0  1  2  3  4  5  6  7  8  9  10");
+        for (int x = 0; x < 11; x++)
         {
-            System.out.print(x+1 + " ");
-            for (int y = 0; y < 10; y++)
+            System.out.print(x + " ");
+            for (int y = 0; y < 11; y++)
             {
-                for (int z = 0; z < 10; z++)
-               {
-                   System.out.print(m[x][y][z].getMapText() + " ");
-               }
-            }
-            System.out.println();
-        }
-        System.out.println();
+                for (int z = 0; z < 11; z++) {
+                    if (!m[x][y][z].getMapText().equals(" ") || z == 10)
+                        {
+                            System.out.print(m[x][y][z].getMapText());
+                        }
 
-        System.out.println("YZ View");
-        System.out.println("0  1  2  3  4  5  6  7  8  9  10");
-        for(int y = 0; y < 10; y++)
-        {
-            System.out.print(y+1 + " ");
-            for (int z = 0; z < 10; z++)
-            {
-                for (int x = 0; x < 10; x++)
-                {
-                    System.out.print(m[x][y][z].getMapText() + " ");
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-
-        System.out.println("XZ View");
-        System.out.println("0  1  2  3  4  5  6  7  8  9  10");
-        for(int x = 0; x < 10; x++)
-        {
-            System.out.print(x+1 + " ");
-            for (int z = 0; z < 10; z++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    System.out.print(m[x][y][z].getMapText() + " ");
                 }
             }
             System.out.println();
@@ -175,6 +144,7 @@ public class Game {
         boolean isValid = false;
         for (int i = 0; i < arr.size(); i++)
         {
+            System.out.print((i + 1) + ". ");
             System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
             x = Integer.parseInt(input.nextLine());
             System.out.println("Input the Y coordinate for your " + arr.get(i).getClassType() + ".");
@@ -186,7 +156,7 @@ public class Game {
             direction = input.nextLine();
 
             for (int j = 0; j < arr.get(i).getLen(); j++) {
-                Coordinate temp = new Coordinate(x, y, z, false, false, "█");
+                Coordinate temp = new Coordinate(x, y, z, false, true, "█");
                 if (direction.equals("v")){
                     arr.get(i).getCoordArr().add(temp);
                     y--;
@@ -224,18 +194,19 @@ public class Game {
             }
 
             for (int k = 0; k < arr.get(i).getLen(); k++) {
-                Coordinate Temp;
+                Coordinate temp = new Coordinate(x, y, z, false, false, "");
+                temp.setMapText("█");
                 if (direction.equals("v")){
-                    Temp = map[x][y][z];
+                    temp = map[x][y][z];
                     System.out.println(map[x][y][z].getMapText());
-                    arr.get(i).getCoordArr().add(Temp);
+                    arr.get(i).getCoordArr().add(temp);
 
                     y--;
                 }
                 else{
-                    Temp = map[x][y][z];
+                    temp = map[x][y][z];
                     System.out.println(map[x][y][z].getMapText());
-                    arr.get(i).getCoordArr().add(Temp);
+                    arr.get(i).getCoordArr().add(temp);
                     x--;
                 }
             }
