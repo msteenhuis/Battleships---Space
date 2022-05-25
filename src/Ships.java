@@ -3,6 +3,7 @@ public class Ships {
 
     private ArrayList<Coordinate> coordArr;
     private boolean isHit;
+    public boolean isDestroyed;
     private String classType;
     private String ability;
     private int len;
@@ -12,6 +13,7 @@ public class Ships {
         this.coordArr = coordArr;
         this.classType = classType;
         this.isHit = false;
+        this.isDestroyed = false;
         this.ability = ability;
         this.len = len;
     }
@@ -73,6 +75,7 @@ public class Ships {
                 counter++;
             }
         }
+        /**
         if (output == true)
         {
             System.out.print(s.getClassType() + " has been destroyed by the enemy!");
@@ -82,6 +85,7 @@ public class Ships {
         {
             System.out.print(s.getClassType() + " is still operational. It has " + counter + " lives left.");
         }
+         **/
         return output;
     }
 }

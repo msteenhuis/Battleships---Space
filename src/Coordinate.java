@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Coordinate {
@@ -8,9 +9,9 @@ public class Coordinate {
     private boolean shipHere;
     private boolean shipDamaged;
     private boolean amRevealed;
-    private String mapText;
+    private String colorIndicator;
 
-    public Coordinate (int x, int y, int z, boolean a, boolean s, String m)
+    public Coordinate (int x, int y, int z, boolean a, boolean s, boolean r, String c)
     {
         this.xCoord = x;
         this.yCoord = y;
@@ -18,12 +19,13 @@ public class Coordinate {
         this.abilityHere = a;
         this.shipHere = s;
         this.shipDamaged = false;
-        this.mapText = m;
+        this.amRevealed = r;
+        this.colorIndicator = c;
     }
 
-    public String getMapText()
+    public String getColorIndicator()
     {
-        return mapText;
+        return colorIndicator;
     }
 
     public int getXCoord() {
@@ -62,14 +64,19 @@ public class Coordinate {
         return shipHere;
     }
 
-    public void setMapText(String c)
+    public void setColorIndicator(String c)
     {
-        mapText = c;
+        colorIndicator = c;
     }
 
     public boolean getAmRevealed()
     {
         return amRevealed;
+    }
+
+    public void setAmRevealed(boolean isRevealed)
+    {
+        amRevealed = isRevealed;
     }
 
     public boolean getShipDamaged()
