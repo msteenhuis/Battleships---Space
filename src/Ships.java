@@ -5,17 +5,15 @@ public class Ships {
     private boolean isHit;
     public boolean isDestroyed;
     private String classType;
-    private String ability;
     private int len;
 
-    public Ships(ArrayList<Coordinate> coordArr, String classType, String ability, int l)
+    public Ships(ArrayList<Coordinate> coordArr, String classType, int l)
     {
         this.coordArr = coordArr;
         this.classType = classType;
         this.isHit = false;
         this.isDestroyed = false;
-        this.ability = ability;
-        this.len = len;
+        this.len = l;
     }
 
     public int getLen()
@@ -43,11 +41,6 @@ public class Ships {
             }
         }
         return isHit;
-    }
-
-    public String getAbility()
-    {
-        return ability;
     }
 
     public void damageShip(Coordinate c)

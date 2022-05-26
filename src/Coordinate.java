@@ -5,18 +5,16 @@ public class Coordinate {
     private int xCoord;
     private int yCoord;
     private int zCoord;
-    private boolean abilityHere;
     private boolean shipHere;
     private boolean shipDamaged;
     private boolean amRevealed;
     private String colorIndicator;
 
-    public Coordinate (int x, int y, int z, boolean a, boolean s, boolean r, String c)
+    public Coordinate (int x, int y, int z, boolean s, boolean r, String c)
     {
         this.xCoord = x;
         this.yCoord = y;
         this.zCoord = z;
-        this.abilityHere = a;
         this.shipHere = s;
         this.shipDamaged = false;
         this.amRevealed = r;

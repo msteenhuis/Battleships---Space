@@ -19,13 +19,13 @@ public class MethodBank {
         ArrayList<Coordinate> bArr1 = new ArrayList<>();
         ArrayList<Coordinate> caArr1 = new ArrayList<>();
 
-        Ships c11 = new Corvette (cArr11,"Corvette", "Scout", 3);
-        Ships c12 = new Corvette (cArr12,"Corvette", "Scout", 3);
-        Ships d11 = new Destroyer (dArr11,"Destroyer", "Laser", 4);
-        Ships d12 = new Destroyer (dArr12,"Destroyer", "Laser", 4);
-        Ships cr1 = new Cruiser (crArr1,"Cruiser", "Torpedo", 5);
-        Ships b1 = new Battleship (bArr1,"Battleship", "Shell", 6);
-        Ships ca1 = new Carrier (caArr1,"Carrier", "Fighter Wing", 6);
+        Ships c11 = new Corvette (cArr11,"Corvette", 3);
+        Ships c12 = new Corvette (cArr12,"Corvette", 3);
+        Ships d11 = new Destroyer (dArr11,"Destroyer", 4);
+        Ships d12 = new Destroyer (dArr12,"Destroyer", 4);
+        Ships cr1 = new Cruiser (crArr1,"Cruiser", 5);
+        Ships b1 = new Battleship (bArr1,"Battleship", 6);
+        Ships ca1 = new Carrier (caArr1,"Carrier", 6);
 
         player1.add(c11);
         player1.add(c12);
@@ -43,13 +43,13 @@ public class MethodBank {
         ArrayList<Coordinate> bArr2 = new ArrayList<>();
         ArrayList<Coordinate> caArr2 = new ArrayList<>();
 
-        Ships c21 = new Corvette (cArr21,"Corvette", "Scout", 3);
-        Ships c22 = new Corvette (cArr22,"Corvette", "Scout", 3);
-        Ships d21 = new Destroyer (dArr21,"Destroyer", "Laser", 4);
-        Ships d22 = new Destroyer (drArr22,"Destroyer", "Laser", 4);
-        Ships cr2 = new Cruiser (crArr2,"Cruiser", "Torpedo", 5);
-        Ships b2 = new Battleship (bArr2,"Battleship", "Shell", 6);
-        Ships ca2 = new Carrier (caArr2,"Carrier", "Fighter Wing", 6);
+        Ships c21 = new Corvette (cArr21,"Corvette", 3);
+        Ships c22 = new Corvette (cArr22,"Corvette", 3);
+        Ships d21 = new Destroyer (dArr21,"Destroyer", 4);
+        Ships d22 = new Destroyer (drArr22,"Destroyer", 4);
+        Ships cr2 = new Cruiser (crArr2,"Cruiser", 5);
+        Ships b2 = new Battleship (bArr2,"Battleship", 6);
+        Ships ca2 = new Carrier (caArr2,"Carrier", 6);
 
         player2.add(c21);
         player2.add(c22);
@@ -79,7 +79,7 @@ public class MethodBank {
             {
                 for (int z = 0; z < 11; z++)
                 {
-                    Coordinate temp = new Coordinate(x, y, z, false, false, false,"\033[0;33m");
+                    Coordinate temp = new Coordinate(x, y, z, false, false,"\033[0;33m");
                     m[x][y][z] = temp;
                 }
             }
@@ -117,18 +117,13 @@ public class MethodBank {
             {
                 int z = 0;
                 boolean canPrint = false;
-                while(!canPrint) {
-                    if (m[x][y][z].getAmRevealed())
-                    {
-                        System.out.print(m[x][y][z].getColorIndicator() + z + "\u001b[0m" + " ");
-                        canPrint = true;
-                    }
-                    else if (z == 10)
+                while(!canPrint)
+                {
+                    if (m[x][y][z].getAmRevealed() == true)
                     {
                         canPrint = true;
-                        System.out.print("   ");
+                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + " " +  "\033[0m");
                     }
-                    z++;
                 }
             }
             System.out.println();
@@ -136,23 +131,44 @@ public class MethodBank {
         System.out.println();
     }
 
-    public boolean collision(ArrayList<Ships> arr)
+    public boolean placeCheck
+            (Coordinate[][][] map,Ships s)
     {
         boolean output = true;
+        for (Coordinate v : s.getCoordArr())
+        {
+            for (int x = 0; x < 11; x++)
+            {
+                for (int y = 0; y < 11; y++)
+                {
+                    for (int z = 0; z < 11; z++)
+                    {
+                        if (map[x][y][z].getXCoord() == v.getXCoord() && map[x][y][z].getYCoord() == v.getYCoord() && map[x][y][z].getZCoord() == v.getZCoord())
+                        {
+                            output = false;
+                        }
+                    }
+                }
+            }
+        }
+        for (Coordinate v : s.getCoordArr())
+        {
+            if (v.getXCoord() < 11 || v.getXCoord() > 0 || v.getYCoord() < 11 || v.getYCoord() > 0)
+            {
+                output = false;
+            }
+        }
+
         return output;
+    }
 
-    } // Check to see if a coordinate may have two ships or not.
-
-    public void placeShips(Coordinate[][][] map, ArrayList<Ships> arr, boolean amRevealed)
-    {
-        Scanner input = new Scanner(System.in);
-        String direction = "";
+    public void placeShips(Coordinate[][][] map, ArrayList<Ships> arr, boolean amRevealed) {
         int x = 0;
         int y = 0;
         int z = 0;
         boolean isValid = false;
-        for (int i = 0; i < arr.size(); i++)
-        {
+        Scanner input = new Scanner(System.in);
+        for (int i = 0; i < arr.size(); i++) {
             System.out.print((i + 1) + ". ");
             System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
             x = Integer.parseInt(input.nextLine());
@@ -160,66 +176,9 @@ public class MethodBank {
             y = Integer.parseInt(input.nextLine());
             System.out.println("Input the Z coordinate for your " + arr.get(i).getClassType() + ".");
             z = Integer.parseInt(input.nextLine());
-
-            System.out.print("Input the direction you would like your ship to face, vertically or horizontally. \nTo select vertical, input (v). To select horizontal, input (h).");
-            direction = input.nextLine();
-
-            for (int j = 0; j < arr.get(i).getLen(); j++) {
-                Coordinate temp = new Coordinate(x, y, z, false, true, amRevealed,"\033[0;33m");
-                if (direction.equals("v")){
-                    arr.get(i).getCoordArr().add(temp);
-                    y--;
-                }
-                if (direction.equals("h")){
-                    arr.get(i).getCoordArr().add(temp);
-                    x--;
-                }
-            }
-            isValid = collision(arr);
-
-            while (!isValid) {
-                System.out.print("error");
-                System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
-                x = Integer.parseInt(input.nextLine());
-                System.out.println("Input the Y coordinate for your " + arr.get(i).getClassType() + ".");
-                y = Integer.parseInt(input.nextLine());
-                System.out.println("Input the Z coordinate for your " + arr.get(i).getClassType() + ".");
-                z = Integer.parseInt(input.nextLine());
-
-                System.out.print("Input the direction you would like your ship to face, vertically or horizontally. \nTo select vertical, input (v). To select horizontal, input (h).");
-                direction = input.nextLine();
-                for (int j = 0; j < arr.get(i).getLen(); j++) {
-                    Coordinate temp = new Coordinate(x, y, z, false, false, amRevealed, "\033[0;33m");
-                    if (direction.equals("v")){
-                        arr.get(i).getCoordArr().add(temp);
-                        y--;
-                    }
-                    if (direction.equals("h")){
-                        arr.get(i).getCoordArr().add(temp);
-                        x--;
-                    }
-                }
-                isValid = collision(arr);
-            }
-
-            for (int k = 0; k < arr.get(i).getLen(); k++) {
-                Coordinate temp = new Coordinate(x, y, z, false, false, amRevealed, "\033[0;33m");
-                temp.setColorIndicator("\033[0;33m");
-                if (direction.equals("v")){
-                    temp = map[x][y][z];
-                    arr.get(i).getCoordArr().add(temp);
-
-                    y--;
-                }
-                else{
-                    temp = map[x][y][z];
-                    arr.get(i).getCoordArr().add(temp);
-                    x--;
-                }
-            }
-            System.out.println("Ship added!");
-            }
         }
+    }
+
 
     public void play(String playerOne, String playerTwo)
     {
