@@ -16,6 +16,7 @@ public class Ships {
         this.len = l;
     }
 
+
     public int getLen()
     {
         return len;
@@ -24,6 +25,11 @@ public class Ships {
     public ArrayList<Coordinate> getCoordArr()
     {
         return coordArr;
+    }
+
+    public void setCoordArr(ArrayList<Coordinate> arr)
+    {
+        coordArr = arr;
     }
 
     public String getClassType()

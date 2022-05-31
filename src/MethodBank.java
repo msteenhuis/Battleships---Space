@@ -19,13 +19,13 @@ public class MethodBank {
         ArrayList<Coordinate> bArr1 = new ArrayList<>();
         ArrayList<Coordinate> caArr1 = new ArrayList<>();
 
-        Ships c11 = new Corvette (cArr11,"Corvette", 3);
-        Ships c12 = new Corvette (cArr12,"Corvette", 3);
-        Ships d11 = new Destroyer (dArr11,"Destroyer", 4);
-        Ships d12 = new Destroyer (dArr12,"Destroyer", 4);
-        Ships cr1 = new Cruiser (crArr1,"Cruiser", 5);
-        Ships b1 = new Battleship (bArr1,"Battleship", 6);
-        Ships ca1 = new Carrier (caArr1,"Carrier", 6);
+        Ships c11 = new Ships (cArr11,"Corvette", 3);
+        Ships c12 = new Ships (cArr12,"Corvette", 3);
+        Ships d11 = new Ships (dArr11,"Destroyer", 4);
+        Ships d12 = new Ships (dArr12,"Destroyer", 4);
+        Ships cr1 = new Ships (crArr1,"Cruiser", 5);
+        Ships b1 = new Ships (bArr1,"Battleship", 6);
+        Ships ca1 = new Ships (caArr1,"Carrier", 6);
 
         player1.add(c11);
         player1.add(c12);
@@ -43,13 +43,13 @@ public class MethodBank {
         ArrayList<Coordinate> bArr2 = new ArrayList<>();
         ArrayList<Coordinate> caArr2 = new ArrayList<>();
 
-        Ships c21 = new Corvette (cArr21,"Corvette", 3);
-        Ships c22 = new Corvette (cArr22,"Corvette", 3);
-        Ships d21 = new Destroyer (dArr21,"Destroyer", 4);
-        Ships d22 = new Destroyer (drArr22,"Destroyer", 4);
-        Ships cr2 = new Cruiser (crArr2,"Cruiser", 5);
-        Ships b2 = new Battleship (bArr2,"Battleship", 6);
-        Ships ca2 = new Carrier (caArr2,"Carrier", 6);
+        Ships c21 = new Ships (cArr21,"Corvette", 3);
+        Ships c22 = new Ships (cArr22,"Corvette", 3);
+        Ships d21 = new Ships (dArr21,"Destroyer", 4);
+        Ships d22 = new Ships (drArr22,"Destroyer", 4);
+        Ships cr2 = new Ships (crArr2,"Cruiser", 5);
+        Ships b2 = new Ships (bArr2,"Battleship", 5);
+        Ships ca2 = new Ships (caArr2,"Carrier", 6);
 
         player2.add(c21);
         player2.add(c22);
@@ -122,8 +122,14 @@ public class MethodBank {
                     if (m[x][y][z].getAmRevealed() == true)
                     {
                         canPrint = true;
-                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + " " +  "\033[0m");
+                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + " " +  "\033[0m" + " ");
                     }
+                    if ( z == 10)
+                    {
+                        canPrint = true;
+                        System.out.print("   ");
+                    }
+                    z++;
                 }
             }
             System.out.println();
@@ -131,11 +137,10 @@ public class MethodBank {
         System.out.println();
     }
 
-    public boolean placeCheck
-            (Coordinate[][][] map,Ships s)
+    public boolean placeCheck (Coordinate[][][] map,ArrayList<Coordinate> arr)
     {
         boolean output = true;
-        for (Coordinate v : s.getCoordArr())
+        for (Coordinate v : arr)
         {
             for (int x = 0; x < 11; x++)
             {
@@ -143,19 +148,23 @@ public class MethodBank {
                 {
                     for (int z = 0; z < 11; z++)
                     {
-                        if (map[x][y][z].getXCoord() == v.getXCoord() && map[x][y][z].getYCoord() == v.getYCoord() && map[x][y][z].getZCoord() == v.getZCoord())
+                        if (map[x][y][z].getShipHere())
                         {
-                            output = false;
+                            if (map[x][y][z].getXCoord() == v.getXCoord() && map[x][y][z].getYCoord() == v.getYCoord() && map[x][y][z].getZCoord() == v.getZCoord()) {
+                                output = false;
+                                System.out.println(output + "1");
+                            }
                         }
                     }
                 }
             }
         }
-        for (Coordinate v : s.getCoordArr())
+        for (Coordinate v : arr)
         {
-            if (v.getXCoord() < 11 || v.getXCoord() > 0 || v.getYCoord() < 11 || v.getYCoord() > 0)
+            if (v.getXCoord() > 11 || v.getXCoord() < 0 || v.getYCoord() > 11 || v.getYCoord() < 0)
             {
                 output = false;
+                System.out.println(output + "2");
             }
         }
 
@@ -166,16 +175,59 @@ public class MethodBank {
         int x = 0;
         int y = 0;
         int z = 0;
+        String direction = "v";
         boolean isValid = false;
         Scanner input = new Scanner(System.in);
-        for (int i = 0; i < arr.size(); i++) {
-            System.out.print((i + 1) + ". ");
-            System.out.println("Input the X coordinate for your " + arr.get(i).getClassType() + ".");
-            x = Integer.parseInt(input.nextLine());
-            System.out.println("Input the Y coordinate for your " + arr.get(i).getClassType() + ".");
-            y = Integer.parseInt(input.nextLine());
-            System.out.println("Input the Z coordinate for your " + arr.get(i).getClassType() + ".");
-            z = Integer.parseInt(input.nextLine());
+
+                for (int i = 0; i < arr.size(); i++) {
+                    while (!isValid) {
+                    System.out.print((i + 1) + ". ");
+                    System.out.println("Input the X coordinate for the front of your " + arr.get(i).getClassType() + ".");
+                    x = Integer.parseInt(input.nextLine());
+                    System.out.println("Input the Y coordinate for the front of your " + arr.get(i).getClassType() + ".");
+                    y = Integer.parseInt(input.nextLine());
+                    System.out.println("Input the Z coordinate for the front of your " + arr.get(i).getClassType() + ".");
+                    z = Integer.parseInt(input.nextLine());
+                    System.out.println("Input the direction you would like your " + arr.get(i).getClassType() + " to face. Input (v) for the ship to face vertically, and (h) for the ship to face horizontally.");
+                    direction = input.nextLine();
+
+                    Coordinate[][][] tempMap = new Coordinate[17][17][11];
+                    setMap(tempMap);
+                    ArrayList<Coordinate> tempArr = new ArrayList<>();
+
+                    if (direction.equals("v"))
+                    {
+                        for (int j = 0; j < arr.get(i).getLen(); j++)
+                        {
+                            Coordinate tempCoord = new Coordinate(x + j, y, z, true, true, "\033[0;33m");
+                            tempArr.add(tempCoord);
+                            System.out.println(tempCoord.toString());
+                        }
+                    }
+
+                    else
+                    {
+                        for (int j = 0; j < arr.get(i).getLen(); j++)
+                        {
+                            Coordinate tempCoord = new Coordinate(x, y + j, z, true, true, "\033[0;33m");
+                            tempArr.add(tempCoord);
+                            System.out.println(tempCoord.toString());
+                        }
+                    }
+
+                    isValid = placeCheck(tempMap, tempArr);
+                    if (isValid)
+                    {
+                        arr.get(i).setCoordArr(tempArr);
+                        for (int k = 0; k < arr.get(i).getLen(); k++)
+                        {
+                            arr.get(i).getCoordArr().get(k).setAmRevealed(amRevealed);
+                        }
+                        System.out.println("Your " + arr.get(i).getClassType() + " has been deployed to the battlefield!");
+                        printMap(map);
+                    }
+                        System.out.println("Error: Please reenter data for your " + arr.get(i).getClassType() + ".");
+            }
         }
     }
 
