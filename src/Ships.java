@@ -27,6 +27,7 @@ public class Ships {
         return coordArr;
     }
 
+
     public void setCoordArr(ArrayList<Coordinate> arr)
     {
         coordArr = arr;

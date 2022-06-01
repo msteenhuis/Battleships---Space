@@ -7,9 +7,10 @@ public class PlayBattleships {
         ArrayList<Ships> arr = g.getPlayer1();
         g.setMap(map);
         map[5][5][5] = new Coordinate(5,5,5,false, true, "\033[0;33m");
-        map[6][5][5] = new Coordinate(6,5,5,false, true, "\033[0;33m");
-        map[7][5][5] = new Coordinate(7,5,5,false, true, "\033[0;33m");
-        g.placeShips(map, arr, true);
+        for (int i = 0; i < arr.size(); i++)
+        {
+            g.placeShips(i, map, arr, true);
+        }
         //g.printMap(map);
     }
 }
