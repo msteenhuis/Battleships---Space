@@ -20,11 +20,29 @@ public class Player {
         this.gamesLost = l;
     }
 
+    public Player( String u, int d, int w, int l)
+    {
+        this.user = u;
+        this.shipsDestroyed = d;
+        this.gamesWon = w;
+        this.gamesLost = l;
+    }
+
     public Player(ArrayList<Ships> s, Coordinate[][][] m, String u)
     {
         this.arr = s;
         this.map = m;
         this.user = u;
+    }
+
+    public ArrayList<Ships> getArr()
+    {
+        return arr;
+    }
+
+    public Coordinate[][][] getMap()
+    {
+        return map;
     }
 
     public String getUser()
@@ -37,7 +55,7 @@ public class Player {
         user = u;
     }
 
-    public void takeTurn(Coordinate[][][] enemyMap)
+    public void takeTurn(Coordinate[][][] enemyMap, ArrayList<Ships> enemyShips)
     {
         Scanner input = new Scanner(System.in);
         int x = 0;
@@ -54,7 +72,34 @@ public class Player {
 
         if (enemyMap[x][y][z].getShipHere())
         {
-
+            if (enemyMap[x][y][z].getShipDamaged())
+            {
+                System.out.println("Your ship has targeted a ship, but the area was already damaged!");
+            }
+            else
+            {
+                enemyMap[x][y][z].setShipDamaged();
+                enemyMap[x][y][z].setAmRevealed(true);
+                enemyMap[x][y][z].setColorIndicator("\u001B[31m");
+                enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z]);
+            }
         }
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    //Ensign
+    //Lieutenant
+    //Lieutenant Commander
+    //Commander
+    //Captain
+    //Rear admiral
+    //Vice Admiral
+    //Admiral
+    //Fleet Admiral
+    public String setRank(int wins) {
+        if (wins == 1)
     }
 }

@@ -40,21 +40,24 @@ public class Coordinate {
         return zCoord;
     }
 
-    public boolean isShipHere(ArrayList<Ships> shipArr, Coordinate c)
+    public void findShip(ArrayList<Ships> shipArr, Coordinate c)
     {
-        boolean output = false;
         for (Ships v : shipArr)
         {
-            ArrayList<Coordinate> tempArr = v.getCoordArr();
-            for ( int i = 0; i < tempArr.size(); i++)
+            for ( int i = 0; i < shipArr.size(); i++)
             {
-                if ((tempArr.get(i).getXCoord() == c.getXCoord()) && (tempArr.get(i).getYCoord() == c.getYCoord()) && (tempArr.get(i).getZCoord() == c.getZCoord()))
+                if (v.getCoordArr().get(i).equals(c))
                 {
-                    output = true;
+                    v.getCoordArr().get(i).setShipDamaged();
+                    System.out.println("Your fleet successfully damaged the enemy's " + v.getClassType() + ".");
+                    if (v.isDestroyed(v))
+                    {
+                        System.out.println("Your fleet has successfully destroyed the enemy's " + v.getClassType() + "!");
+                        shipArr.remove(i);
+                    }
                 }
             }
         }
-        return output;
     }
 
     public boolean getShipHere()
@@ -87,40 +90,8 @@ public class Coordinate {
         shipDamaged = true;
     }
 
-    public String mapString()
-    {
-        String output = "";
-        if(this.getAmRevealed())
-        {
-            if(this.getShipHere())
-            {
-                if(this.getShipDamaged())
-                {
-                    output = "X";
-                }
-                else
-                {
-                    output = "▇";
-                }
-            }
-        }
-        return output;
-    }
-
     public String toString()
     {
         return "(" + this.getXCoord() + ", " + this.getYCoord() + ", " + this.getZCoord() + ")";
-    }
-
-    public void setReveal(boolean b)
-    {
-        if (b)
-        {
-            amRevealed = true;
-        }
-        else
-        {
-            amRevealed = false;
-        }
     }
 }

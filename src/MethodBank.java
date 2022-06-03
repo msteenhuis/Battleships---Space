@@ -1,7 +1,5 @@
-import javax.security.sasl.SaslClient;
 import java.util.ArrayList;
 import java.util.Scanner;
-import static java.awt.Color.white;
 
 public class MethodBank {
 
@@ -67,14 +65,40 @@ public class MethodBank {
 
         this.p1 = new Player(arr1,map1,"");
         this.p2 = new Player(arr2,map2,"");
+
+        this.s = new SavePlayerData();
     }
 
     public void Run() {
-        //this.setup();
-        //this.placement();
-        //this.play();
+        this.setup();
+        this.place();
+        this.play(p1, p2);
         //this.save();
     }
+
+    public void setup()
+    {
+        setPlayers();
+        setMap(map1);
+        setMap(map2);
+    }
+
+    public void place()
+    {
+        System.out.println("It is " + p1.getUser() + "'s turn to place their ships.");
+        for (int i = 0; i < p1.getArr().size(); i++)
+        {
+            placeShips(i, p1.getMap(), p1.getArr(), true);
+        }
+        hideMap(p1.getMap());
+        System.out.println("It is " + p2.getUser() + "'s turn to place their ships.");
+        for (int i = 0; i < p2.getArr().size(); i++)
+        {
+            placeShips(i, p2.getMap(), p2.getArr(), true);
+        }
+        hideMap(p2.getMap());
+    }
+
 
     public void setPlayers()
     {
@@ -113,6 +137,8 @@ public class MethodBank {
             System.out.println("Enter a new username below:");
             tempName = input.nextLine();
             p1.setUser(tempName);
+            Player tempPlayer = new Player (tempName, 0, 0, 0);
+            s.getPlayerArr().add(tempPlayer);
         }
 
         System.out.println("PLAYER TWO");
@@ -143,6 +169,8 @@ public class MethodBank {
             System.out.println("Enter a new username below:");
             tempName = input.nextLine();
             p2.setUser(tempName);
+            Player tempPlayer = new Player (tempName, 0, 0, 0);
+            s.getPlayerArr().add(tempPlayer);
         }
     }
 
@@ -152,6 +180,16 @@ public class MethodBank {
                 for (int z = 0; z < 11; z++) {
                     Coordinate temp = new Coordinate(x, y, z, false, false, "\033[0;33m");
                     m[x][y][z] = temp;
+                }
+            }
+        }
+    }
+
+    public void hideMap(Coordinate[][][] m) {
+        for (int x = 0; x < 11; x++) {
+            for (int y = 0; y < 11; y++) {
+                for (int z = 0; z < 11; z++) {
+                    m[x][y][z].setAmRevealed(false);
                 }
             }
         }
@@ -175,10 +213,10 @@ public class MethodBank {
 
 
     public static void printMap(Coordinate[][][] m) {
-        System.out.println("  0  1  2  3  4  5  6  7  8  9  10");
-        for (int y = 0; y < 11; y++) {
+        System.out.println("  0  1  2  3  4  5  6  7  8  9");
+        for (int y = 0; y < 10; y++) {
             System.out.print(y + " ");
-            for (int x = 0; x < 11; x++) {
+            for (int x = 0; x < 10; x++) {
                 int z = 0;
                 boolean canPrint = false;
                 while (!canPrint) {
@@ -248,17 +286,17 @@ public class MethodBank {
 
             if (direction.equals("v")) {
                 for (int j = 0; j < arr.get(counter).getLen(); j++) {
-                    Coordinate tempCoord = new Coordinate(x + j, y, z, true, true, "\033[0;33m");
+                    Coordinate tempCoord = new Coordinate(x, y + j, z, true, true, "\033[0;33m");
                     System.out.println(tempCoord.getAmRevealed());
-                    tempMap[x + j][y][z] = tempCoord;
+                    tempMap[x][y + j][z] = tempCoord;
                     tempArr.add(tempCoord);
                     System.out.println(tempCoord.toString());
                 }
             } else {
                 for (int j = 0; j < arr.get(counter).getLen(); j++) {
-                    Coordinate tempCoord = new Coordinate(x, y + j, z, true, true, "\033[0;33m");
+                    Coordinate tempCoord = new Coordinate(x + j, y , z, true, true, "\033[0;33m");
                     System.out.println(tempCoord.getAmRevealed());
-                    tempMap[x][y + j][z] = tempCoord;
+                    tempMap[x + j][y][z] = tempCoord;
                     tempArr.add(tempCoord);
                     System.out.println(tempCoord.toString());
                 }
@@ -269,11 +307,11 @@ public class MethodBank {
                 arr.get(counter).setCoordArr(tempArr);
                 if (direction.equals("v")) {
                     for (int j = 0; j < arr.get(counter).getLen(); j++) {
-                        map[x + j][y][z] = arr.get(counter).getCoordArr().get(j);
+                        map[x][y + j][z] = arr.get(counter).getCoordArr().get(j);
                     }
                 } else {
                     for (int j = 0; j < arr.get(counter).getLen(); j++) {
-                        map[x][y + j][z] = arr.get(counter).getCoordArr().get(j);
+                        map[x + j][y][z] = arr.get(counter).getCoordArr().get(j);
                     }
                 }
                 System.out.println("Your " + arr.get(counter).getClassType() + " has been deployed to the battlefield!");
@@ -295,11 +333,11 @@ public class MethodBank {
         {
             if (counter % 2 == 1)
             {
-                p1.takeTurn(map2);
+                p1.takeTurn(map2, arr2);
             }
             if (counter % 2 == 0)
             {
-                p2.takeTurn(map1);
+                p2.takeTurn(map1, arr2);
             }
         }
     }
