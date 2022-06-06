@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,7 +14,7 @@ public class MethodBank {
     private Player p2;
     private SavePlayerData s;
 
-    public MethodBank() {
+    public MethodBank() throws IOException {
         ArrayList<Coordinate> cArr11 = new ArrayList<>();
         ArrayList<Coordinate> cArr12 = new ArrayList<>();
         ArrayList<Coordinate> dArr11 = new ArrayList<>();
@@ -69,52 +72,52 @@ public class MethodBank {
         this.s = new SavePlayerData();
     }
 
-    public void Run() {
+    public void Run() throws IOException {
         this.setup();
+        System.out.print("\033[H\033[2J");
         this.place();
-        this.play(p1, p2);
-        //this.save();
+        System.out.print("\033[H\033[2J");
+        this.play();
+        this.save();
     }
 
-    public void setup()
-    {
+    public void setup() throws IOException {
         setPlayers();
         setMap(map1);
         setMap(map2);
     }
 
-    public void place()
-    {
+    public void place() {
         System.out.println("It is " + p1.getUser() + "'s turn to place their ships.");
-        for (int i = 0; i < p1.getArr().size(); i++)
+        for (int i = 0; i < 7; i++)
         {
             placeShips(i, p1.getMap(), p1.getArr(), true);
         }
         hideMap(p1.getMap());
+        System.out.print("\033[H\033[2J");
         System.out.println("It is " + p2.getUser() + "'s turn to place their ships.");
-        for (int i = 0; i < p2.getArr().size(); i++)
+        for (int i = 0; i < 7; i++)
         {
             placeShips(i, p2.getMap(), p2.getArr(), true);
         }
         hideMap(p2.getMap());
     }
 
-
-    public void setPlayers()
-    {
+    public void setPlayers() throws IOException {
         Scanner input = new Scanner(System.in);
         String tempName;
         int numChoice;
-        int pOne = -1;
-        int pTwo = -1;
-        boolean isValid = false;
+        int pOne = 0;
+        int pTwo = 0;
         System.out.println("PLAYER ONE");
         System.out.println("If you are a returning player, enter (1) to find your username. \nIf you are a new player, enter (2) to create a new username.");
         numChoice = Integer.parseInt(input.nextLine());
         if (numChoice == 1)
         {
+            boolean isValid = false;
             SavePlayerData tempSave = new SavePlayerData();
             tempSave.setPlayerArr(s.getPlayerArr());
+            System.out.print(s.toString());
             while(!isValid) {
                 System.out.println("Find your username below. Enter the wanted user name by inputting its corresponding number:");
                 tempSave.toString();
@@ -123,6 +126,8 @@ public class MethodBank {
                 {
                     isValid = true;
                     p1 = s.getPlayerArr().get(pOne);
+                    p1.setArr(arr1);
+                    p1.setMap(map1);
                 }
                 else
                 {
@@ -136,8 +141,11 @@ public class MethodBank {
         {
             System.out.println("Enter a new username below:");
             tempName = input.nextLine();
-            p1.setUser(tempName);
             Player tempPlayer = new Player (tempName, 0, 0, 0);
+            p1 = tempPlayer;
+            p1.setUser(tempName);
+            p1.setArr(arr1);
+            p1.setMap(map1);
             s.getPlayerArr().add(tempPlayer);
         }
 
@@ -146,16 +154,19 @@ public class MethodBank {
         numChoice = Integer.parseInt(input.nextLine());
         if (numChoice == 1)
         {
+            boolean isValid = false;
             SavePlayerData tempSave = new SavePlayerData();
             tempSave.setPlayerArr(s.getPlayerArr());
             while(!isValid) {
                 System.out.println("Find your username below. Enter the wanted user name by inputting its corresponding number:");
-                tempSave.toString();
+                System.out.println(tempSave.toString());
                 pTwo = Integer.parseInt(input.nextLine());
                 if (pTwo > -1 && pTwo < s.getPlayerArr().size() && pOne != pTwo)
                 {
                     isValid = true;
-                    p2 = s.getPlayerArr().get(pOne);
+                    p2 = s.getPlayerArr().get(pTwo);
+                    p2.setArr(arr2);
+                    p2.setMap(map2);
                 }
                 else
                 {
@@ -168,8 +179,11 @@ public class MethodBank {
         {
             System.out.println("Enter a new username below:");
             tempName = input.nextLine();
+            Player tempPlayer = new Player(tempName,0,0,0);
+            p2 = tempPlayer;
             p2.setUser(tempName);
-            Player tempPlayer = new Player (tempName, 0, 0, 0);
+            p2.setArr(arr2);
+            p2.setMap(map2);
             s.getPlayerArr().add(tempPlayer);
         }
     }
@@ -222,7 +236,7 @@ public class MethodBank {
                 while (!canPrint) {
                     if (m[x][y][z].getAmRevealed() == true) {
                         canPrint = true;
-                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + " " + "\033[0m" + " ");
+                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + " " + "\u001B[0m" + " ");
                     }
                     if (z == 10) {
                         canPrint = true;
@@ -271,11 +285,11 @@ public class MethodBank {
         Scanner input = new Scanner(System.in);
             while (!isValid) {
             System.out.print((counter + 1) + ". ");
-            System.out.println("Input the X coordinate for the front of your " + arr.get(counter).getClassType() + ".");
+            System.out.println("Input the X coordinate for the front of your " + arr.get(counter).getClassType() + ". It must be between 0 and 9.");
             x = Integer.parseInt(input.nextLine());
-            System.out.println("Input the Y coordinate for the front of your " + arr.get(counter).getClassType() + ".");
+            System.out.println("Input the Y coordinate for the front of your " + arr.get(counter).getClassType() + ". It must be between 0 and 9.");
             y = Integer.parseInt(input.nextLine());
-            System.out.println("Input the Z coordinate for the front of your " + arr.get(counter).getClassType() + ".");
+            System.out.println("Input the Z coordinate for the front of your " + arr.get(counter).getClassType() + ". It must be between 0 and 9.");
             z = Integer.parseInt(input.nextLine());
             System.out.println("Input the direction you would like your " + arr.get(counter).getClassType() + " to face. Input (v) for the ship to face vertically, and (h) for the ship to face horizontally.");
             direction = input.nextLine();
@@ -287,7 +301,6 @@ public class MethodBank {
             if (direction.equals("v")) {
                 for (int j = 0; j < arr.get(counter).getLen(); j++) {
                     Coordinate tempCoord = new Coordinate(x, y + j, z, true, true, "\033[0;33m");
-                    System.out.println(tempCoord.getAmRevealed());
                     tempMap[x][y + j][z] = tempCoord;
                     tempArr.add(tempCoord);
                     System.out.println(tempCoord.toString());
@@ -295,7 +308,6 @@ public class MethodBank {
             } else {
                 for (int j = 0; j < arr.get(counter).getLen(); j++) {
                     Coordinate tempCoord = new Coordinate(x + j, y , z, true, true, "\033[0;33m");
-                    System.out.println(tempCoord.getAmRevealed());
                     tempMap[x + j][y][z] = tempCoord;
                     tempArr.add(tempCoord);
                     System.out.println(tempCoord.toString());
@@ -326,47 +338,129 @@ public class MethodBank {
     }
 
 
-    public void play(Player playerOne, Player playerTwo)
+    public void play()
     {
         int counter = 1;
-        while (gameOver() != true)
+        while (isGameOver() != true)
         {
             if (counter % 2 == 1)
             {
+                System.out.println("Your map currently looks like this:");
+                printMap(map1);
+                System.out.println("The enemy's map currently looks like this:");
+                printMap(map2);
                 p1.takeTurn(map2, arr2);
+                counter++;
+                if (isGameOver())
+                {
+                    printMap(map2);
+                    break;
+                }
             }
+            System.out.print("\033[H\033[2J");
+            printMap(map2);
+
             if (counter % 2 == 0)
             {
+                System.out.println("Your map currently looks like this:");
+                printMap(map2);
+                System.out.println("The enemy's map currently looks like this:");
+                printMap(map1);
                 p2.takeTurn(map1, arr2);
+                counter++;
+                if (isGameOver())
+                {
+                    printMap(map1);
+                    break;
+                }
             }
+            System.out.print("\033[H\033[2J");
+            printMap(map1);
         }
     }
 
 
-    public boolean gameOver()
+    public boolean isGameOver()
     {
         boolean output = false;
         int counterOne = 0;
         int counterTwo = 0;
-        for (Ships v : arr1)
-        {
-            if (v.isDestroyed(v))
+        for (Ships v : arr1) {
+            if (v.isDestroyed())
             {
                 counterOne++;
             }
+            if (counterOne == arr1.size())
+            {
+                output = true;
+                p2.setGamesWon();
+                p1.setGamesLost();
+                System.out.println(p2.getUser() + " has won!");
+            }
         }
-        for (Ships v : arr2)
-        {
-            if (v.isDestroyed(v))
+        for (Ships v : arr2) {
+            if (v.isDestroyed())
             {
                 counterTwo++;
             }
-        }
-        if (counterOne == 7 || counterTwo == 7)
-        {
-            output = true;
+            if (counterTwo == arr2.size())
+            {
+                output = true;
+                p1.setGamesWon();
+                p2.setGamesLost();
+                System.out.println(p1.getUser() + " has won!");
+            }
         }
         return output;
+    }
+
+
+    public void save()
+    {
+        saveData();
+        savePlayerArray();
+    }
+
+    public void savePlayerArray()
+    {
+        try {
+            File saveData = new File("src/arraySaver");
+            saveData.createNewFile();
+            FileWriter writer = new FileWriter("src/arraySaver");
+            for (Player v : s.getPlayerArr()) {
+                writer.write(v.getUser() + "|");
+                writer.write(v.getGamesWon() + "|");
+                writer.write(v.getGamesLost() + "|");
+                writer.write(v.getShipsDestroyed() + "\n");
+            }
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            System.out.print("Error: Cannot create file");
+            e.printStackTrace();
+        }
+    }
+
+    public void saveData()
+    {
+        try {
+            File saveData = new File("src/leaderboard");
+            saveData.createNewFile();
+            FileWriter writer = new FileWriter("src/leaderboard");
+            for (Player v : s.getPlayerArr()) {
+                writer.write("<" + v.getUser() + "> ");
+                writer.write("<" + v.getGamesWon() + " Games Won> ");
+                writer.write("<" + v.getGamesLost() + " Games Lost> ");
+                writer.write("<" + v.getShipsDestroyed() + " Ships Destroyed> \n");
+            }
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            System.out.print("Error: Cannot create file");
+            e.printStackTrace();
+        }
     }
 
 }

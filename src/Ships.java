@@ -16,6 +16,9 @@ public class Ships {
         this.len = l;
     }
 
+    public Ships()
+    {
+    }
 
     public int getLen()
     {
@@ -50,42 +53,17 @@ public class Ships {
         return isHit;
     }
 
-    public void damageShip(Coordinate c)
-    {
-        for (Coordinate v : coordArr)
-        {
-            if ((v.getXCoord() == c.getXCoord()) && (v.getYCoord() == c.getYCoord()) && (v.getZCoord() == c.getZCoord()))
-            {
-                v.setShipDamaged();
-            }
-        }
-
-    }
-
-    public boolean isDestroyed(Ships s)
+    public boolean isDestroyed()
     {
         boolean output = true;
-        int counter = 0;
 
         for (Coordinate v : coordArr)
         {
             if (v.getShipDamaged() != true)
             {
                 output = false;
-                counter++;
             }
         }
-        /**
-        if (output == true)
-        {
-            System.out.print(s.getClassType() + " has been destroyed by the enemy!");
-        }
-
-        if (output == false)
-        {
-            System.out.print(s.getClassType() + " is still operational. It has " + counter + " lives left.");
-        }
-         **/
         return output;
     }
 }

@@ -8,7 +8,6 @@ public class Player {
     private int shipsDestroyed;
     private int gamesWon;
     private int gamesLost;
-    public String rank;
 
     public Player(ArrayList<Ships> s, Coordinate[][][] m, String u, int d, int w, int l)
     {
@@ -40,9 +39,48 @@ public class Player {
         return arr;
     }
 
+    public int getGamesWon()
+    {
+        return gamesWon;
+    }
+
+    public void setGamesWon()
+    {
+        gamesWon++;
+    }
+
+    public int getGamesLost()
+    {
+        return gamesLost;
+    }
+
+    public void setGamesLost()
+    {
+        gamesLost++;
+    }
+
+    public int getShipsDestroyed()
+    {
+        return shipsDestroyed;
+    }
+
+    public void setShipsDestroyed()
+    {
+        shipsDestroyed++;
+    }
+
+    public void setArr(ArrayList<Ships> a) {
+        arr = a;
+    }
+
     public Coordinate[][][] getMap()
     {
         return map;
+    }
+
+    public void setMap(Coordinate[][][] m)
+    {
+        map = m;
     }
 
     public String getUser()
@@ -61,14 +99,14 @@ public class Player {
         int x = 0;
         int y = 0;
         int z = 0;
-        System.out.println("Our battery is ready, " + rank + " " + user + ". Enter the X coordinate to be fired upon:");
+        System.out.println("Our battery is ready," + user + ". Enter the X coordinate to be fired upon. It must be between 0 and 9:");
         x = Integer.parseInt(input.nextLine());
-        System.out.println("Enter the Y coordinate to be fired upon:");
+        System.out.println("Enter the Y coordinate to be fired upon. It must be between 0 and 9:");
         y = Integer.parseInt(input.nextLine());
-        System.out.println("Enter the Z coordinate to be fired upon:");
+        System.out.println("Enter the Z coordinate to be fired upon. It must be between 0 and 9:");
         z = Integer.parseInt(input.nextLine());
 
-        System.out.print("Firing");
+        System.out.println("Firing");
 
         if (enemyMap[x][y][z].getShipHere())
         {
@@ -78,28 +116,19 @@ public class Player {
             }
             else
             {
-                enemyMap[x][y][z].setShipDamaged();
-                enemyMap[x][y][z].setAmRevealed(true);
                 enemyMap[x][y][z].setColorIndicator("\u001B[31m");
-                enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z]);
+                Ships damagedShip = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);
+                if (damagedShip.isDestroyed())
+                {
+                    System.out.println("Your fleet has successfully destroyed the enemey's " + damagedShip.getClassType() + "!");
+                    this.setShipsDestroyed();
+                }
             }
         }
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    //Ensign
-    //Lieutenant
-    //Lieutenant Commander
-    //Commander
-    //Captain
-    //Rear admiral
-    //Vice Admiral
-    //Admiral
-    //Fleet Admiral
-    public String setRank(int wins) {
-        if (wins == 1)
+        else
+        {
+            System.out.println("It seems our fleet has missed");
+        }
+        enemyMap[x][y][z].setAmRevealed(true);
     }
 }

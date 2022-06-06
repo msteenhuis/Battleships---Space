@@ -40,29 +40,34 @@ public class Coordinate {
         return zCoord;
     }
 
-    public void findShip(ArrayList<Ships> shipArr, Coordinate c)
+    public Ships findShip(ArrayList<Ships> shipArr, Coordinate c, Player p)
     {
+        Ships output = new Ships();
         for (Ships v : shipArr)
         {
-            for ( int i = 0; i < shipArr.size(); i++)
+            ArrayList<Coordinate> tempArr = v.getCoordArr();
+            for (int i = 0; i < tempArr.size(); i++)
             {
                 if (v.getCoordArr().get(i).equals(c))
                 {
                     v.getCoordArr().get(i).setShipDamaged();
                     System.out.println("Your fleet successfully damaged the enemy's " + v.getClassType() + ".");
-                    if (v.isDestroyed(v))
-                    {
-                        System.out.println("Your fleet has successfully destroyed the enemy's " + v.getClassType() + "!");
-                        shipArr.remove(i);
-                    }
+                    output = v;
+                    break;
                 }
             }
         }
+        return output;
     }
 
     public boolean getShipHere()
     {
         return shipHere;
+    }
+
+    public void setShipHere()
+    {
+        shipHere = true;
     }
 
     public void setColorIndicator(String c)
