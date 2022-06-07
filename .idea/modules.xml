@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Battleships---SpaceEnd.iml" filepath="$PROJECT_DIR$/Battleships---SpaceEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BattleshipsSpace.iml" filepath="$PROJECT_DIR$/BattleshipsSpace.iml" />
     </modules>
   </component>
 </project>
