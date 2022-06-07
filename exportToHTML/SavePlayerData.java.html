@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>SavePlayerData.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SavePlayerData.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java.io.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">SavePlayerData {</span>
+    <span class="s1">ArrayList&lt;Player&gt; playerArr</span><span class="s0">;</span>
+    <span class="s1">File dataSave</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">SavePlayerData() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s0">this</span><span class="s1">.playerArr = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.dataSave = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;src/arraySaver&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reuploadArray()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">ArrayList&lt;Player&gt; getPlayerArr()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">playerArr</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setPlayerArr(ArrayList&lt;Player&gt; p)</span>
+    <span class="s1">{</span>
+        <span class="s1">playerArr = p</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String toString()</span>
+    <span class="s1">{</span>
+        <span class="s1">String output = </span><span class="s2">&quot;&quot;</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt; playerArr.size()</span><span class="s0">; </span><span class="s1">i++)</span>
+        <span class="s1">{</span>
+            <span class="s1">output += </span><span class="s2">&quot;(&quot; </span><span class="s1">+ i + </span><span class="s2">&quot;) &quot; </span><span class="s1">+ playerArr.get(i).getUser() + </span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">output</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">reuploadArray() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s1">BufferedReader reader = </span><span class="s0">new </span><span class="s1">BufferedReader(</span><span class="s0">new </span><span class="s1">FileReader(</span><span class="s2">&quot;src/arraySaver&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">String line = reader.readLine()</span><span class="s0">;</span>
+        <span class="s0">while </span><span class="s1">(line != </span><span class="s0">null</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">String tempUser = line.substring(</span><span class="s3">0</span><span class="s0">, </span><span class="s1">line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">line = line.substring(line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">) + </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s0">int </span><span class="s1">tempWon = Integer.parseInt(line.substring(</span><span class="s3">0</span><span class="s0">,</span><span class="s1">line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">)))</span><span class="s0">;</span>
+            <span class="s1">line = line.substring(line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">) + </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s0">int </span><span class="s1">tempLose = Integer.parseInt(line.substring(</span><span class="s3">0</span><span class="s0">,</span><span class="s1">line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">)))</span><span class="s0">;</span>
+            <span class="s1">line = line.substring(line.indexOf(</span><span class="s2">&quot;|&quot;</span><span class="s1">) + </span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s0">int </span><span class="s1">tempShipDes = Integer.parseInt(line)</span><span class="s0">;</span>
+            <span class="s1">Player tempPlayer = </span><span class="s0">new </span><span class="s1">Player(tempUser</span><span class="s0">, </span><span class="s1">tempWon</span><span class="s0">, </span><span class="s1">tempLose</span><span class="s0">, </span><span class="s1">tempShipDes)</span><span class="s0">;</span>
+            <span class="s1">playerArr.add(tempPlayer)</span><span class="s0">;</span>
+
+            <span class="s1">line = reader.readLine()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">reader.close()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html>
+<head>
+<title>Ships.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Ships.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">public class </span><span class="s1">Ships {</span>
+
+    <span class="s0">private </span><span class="s1">ArrayList&lt;Coordinate&gt; coordArr</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">isHit</span><span class="s0">;</span>
+    <span class="s0">public boolean </span><span class="s1">isDestroyed</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String classType</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">len</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">Ships(ArrayList&lt;Coordinate&gt; coordArr</span><span class="s0">, </span><span class="s1">String classType</span><span class="s0">, int </span><span class="s1">l)</span>
+    <span class="s1">{</span>
+        <span class="s0">this</span><span class="s1">.coordArr = coordArr</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.classType = classType</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.isHit = </span><span class="s0">false;</span>
+        <span class="s0">this</span><span class="s1">.isDestroyed = </span><span class="s0">false;</span>
+        <span class="s0">this</span><span class="s1">.len = l</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Ships()</span>
+    <span class="s1">{</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getLen()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">len</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">ArrayList&lt;Coordinate&gt; getCoordArr()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">coordArr</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public void </span><span class="s1">setCoordArr(ArrayList&lt;Coordinate&gt; arr)</span>
+    <span class="s1">{</span>
+        <span class="s1">coordArr = arr</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getClassType()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">classType</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">getIsHit()</span>
+    <span class="s1">{</span>
+        <span class="s0">for </span><span class="s1">(Coordinate v : coordArr)</span>
+        <span class="s1">{</span>
+            <span class="s0">if </span><span class="s1">(v.getShipDamaged() == </span><span class="s0">true</span><span class="s1">)</span>
+            <span class="s1">{</span>
+                <span class="s1">isHit = </span><span class="s0">true;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">isHit</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">isDestroyed()</span>
+    <span class="s1">{</span>
+        <span class="s0">boolean </span><span class="s1">output = </span><span class="s0">true;</span>
+
+        <span class="s0">for </span><span class="s1">(Coordinate v : coordArr)</span>
+        <span class="s1">{</span>
+            <span class="s0">if </span><span class="s1">(v.getShipDamaged() != </span><span class="s0">true</span><span class="s1">)</span>
+            <span class="s1">{</span>
+                <span class="s1">output = </span><span class="s0">false;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">output</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

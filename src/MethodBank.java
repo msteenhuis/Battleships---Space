@@ -253,9 +253,9 @@ public class MethodBank {
     public boolean placeCheck(Coordinate[][][] map, ArrayList<Coordinate> arr) {
         boolean output = true;
         for (Coordinate v : arr) {
-            for (int x = 0; x < 11; x++) {
-                for (int y = 0; y < 11; y++) {
-                    for (int z = 0; z < 11; z++) {
+            for (int x = 0; x < 10; x++) {
+                for (int y = 0; y < 10; y++) {
+                    for (int z = 0; z < 10; z++) {
                         if (map[x][y][z].getShipHere()) {
                             if (v.getShipHere() && map[x][y][z].getXCoord() == v.getXCoord() && map[x][y][z].getYCoord() == v.getYCoord() && map[x][y][z].getZCoord() == v.getZCoord()) {
                                 output = false;
@@ -266,13 +266,15 @@ public class MethodBank {
                 }
             }
         }
-        for (Coordinate v : arr) {
-            if (v.getXCoord() > 11 || v.getXCoord() < 0 || v.getYCoord() > 11 || v.getYCoord() < 0) {
+        for (Coordinate v : arr)
+        {
+            if (v.getYCoord() > 10) {
                 output = false;
-                System.out.println(output + "2");
+            }
+            if (v.getXCoord() > 10) {
+                output = false;
             }
         }
-
         return output;
     }
 
@@ -313,7 +315,6 @@ public class MethodBank {
                     System.out.println(tempCoord.toString());
                 }
             }
-
             isValid = placeCheck(map, tempArr);
             if (isValid) {
                 arr.get(counter).setCoordArr(tempArr);
@@ -333,7 +334,6 @@ public class MethodBank {
             {
                 System.out.println("Error: Please reenter data for your " + arr.get(counter).getClassType() + ".");
             }
-            System.out.println(isValid);
         }
     }
 

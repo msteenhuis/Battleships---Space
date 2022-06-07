@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>Coordinate.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Coordinate.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java.awt.Color</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">Coordinate {</span>
+    <span class="s0">private int </span><span class="s1">xCoord</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">yCoord</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">zCoord</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">shipHere</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">shipDamaged</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">amRevealed</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String colorIndicator</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">Coordinate (</span><span class="s0">int </span><span class="s1">x</span><span class="s0">, int </span><span class="s1">y</span><span class="s0">, int </span><span class="s1">z</span><span class="s0">, boolean </span><span class="s1">s</span><span class="s0">, boolean </span><span class="s1">r</span><span class="s0">, </span><span class="s1">String c)</span>
+    <span class="s1">{</span>
+        <span class="s0">this</span><span class="s1">.xCoord = x</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.yCoord = y</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.zCoord = z</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.shipHere = s</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.shipDamaged = </span><span class="s0">false;</span>
+        <span class="s0">this</span><span class="s1">.amRevealed = r</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.colorIndicator = c</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getColorIndicator()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">colorIndicator</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getXCoord() {</span>
+        <span class="s0">return </span><span class="s1">xCoord</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getYCoord()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">yCoord</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getZCoord()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">zCoord</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Ships findShip(ArrayList&lt;Ships&gt; shipArr</span><span class="s0">, </span><span class="s1">Coordinate c</span><span class="s0">, </span><span class="s1">Player p)</span>
+    <span class="s1">{</span>
+        <span class="s1">Ships output = </span><span class="s0">new </span><span class="s1">Ships()</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(Ships v : shipArr)</span>
+        <span class="s1">{</span>
+            <span class="s1">ArrayList&lt;Coordinate&gt; tempArr = v.getCoordArr()</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; tempArr.size()</span><span class="s0">; </span><span class="s1">i++)</span>
+            <span class="s1">{</span>
+                <span class="s0">if </span><span class="s1">(v.getCoordArr().get(i).equals(c))</span>
+                <span class="s1">{</span>
+                    <span class="s1">v.getCoordArr().get(i).setShipDamaged()</span><span class="s0">;</span>
+                    <span class="s1">System.out.println(</span><span class="s3">&quot;Your fleet successfully damaged the enemy's &quot; </span><span class="s1">+ v.getClassType() + </span><span class="s3">&quot;.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">output = v</span><span class="s0">;</span>
+                    <span class="s0">break;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">output</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">getShipHere()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">shipHere</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setShipHere()</span>
+    <span class="s1">{</span>
+        <span class="s1">shipHere = </span><span class="s0">true;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setColorIndicator(String c)</span>
+    <span class="s1">{</span>
+        <span class="s1">colorIndicator = c</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">getAmRevealed()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">amRevealed</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setAmRevealed(</span><span class="s0">boolean </span><span class="s1">isRevealed)</span>
+    <span class="s1">{</span>
+        <span class="s1">amRevealed = isRevealed</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">getShipDamaged()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s1">shipDamaged</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setShipDamaged()</span>
+    <span class="s1">{</span>
+        <span class="s1">shipDamaged = </span><span class="s0">true;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String toString()</span>
+    <span class="s1">{</span>
+        <span class="s0">return </span><span class="s3">&quot;(&quot; </span><span class="s1">+ </span><span class="s0">this</span><span class="s1">.getXCoord() + </span><span class="s3">&quot;, &quot; </span><span class="s1">+ </span><span class="s0">this</span><span class="s1">.getYCoord() + </span><span class="s3">&quot;, &quot; </span><span class="s1">+ </span><span class="s0">this</span><span class="s1">.getZCoord() + </span><span class="s3">&quot;)&quot;</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

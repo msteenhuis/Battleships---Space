@@ -1,0 +1,486 @@
+<html>
+<head>
+<title>MethodBank.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MethodBank.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java.io.File</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.FileWriter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Scanner</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MethodBank {</span>
+
+    <span class="s0">private </span><span class="s1">ArrayList&lt;Ships&gt; arr1 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ArrayList&lt;Ships&gt; arr2 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Coordinate[][][] map1</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Coordinate[][][] map2</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Player p1</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Player p2</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">SavePlayerData s</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">MethodBank() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; cArr11 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; cArr12 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; dArr11 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; dArr12 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; crArr1 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; bArr1 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; caArr1 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s1">Ships c11 = </span><span class="s0">new </span><span class="s1">Ships(cArr11</span><span class="s0">, </span><span class="s2">&quot;Corvette&quot;</span><span class="s0">, </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships c12 = </span><span class="s0">new </span><span class="s1">Ships(cArr12</span><span class="s0">, </span><span class="s2">&quot;Corvette&quot;</span><span class="s0">, </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships d11 = </span><span class="s0">new </span><span class="s1">Ships(dArr11</span><span class="s0">, </span><span class="s2">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s3">4</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships d12 = </span><span class="s0">new </span><span class="s1">Ships(dArr12</span><span class="s0">, </span><span class="s2">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s3">4</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships cr1 = </span><span class="s0">new </span><span class="s1">Ships(crArr1</span><span class="s0">, </span><span class="s2">&quot;Cruiser&quot;</span><span class="s0">, </span><span class="s3">5</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships b1 = </span><span class="s0">new </span><span class="s1">Ships(bArr1</span><span class="s0">, </span><span class="s2">&quot;Battleship&quot;</span><span class="s0">, </span><span class="s3">6</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships ca1 = </span><span class="s0">new </span><span class="s1">Ships(caArr1</span><span class="s0">, </span><span class="s2">&quot;Carrier&quot;</span><span class="s0">, </span><span class="s3">6</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">arr1.add(c11)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(c12)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(d11)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(d12)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(cr1)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(b1)</span><span class="s0">;</span>
+        <span class="s1">arr1.add(ca1)</span><span class="s0">;</span>
+
+        <span class="s1">ArrayList&lt;Coordinate&gt; cArr21 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; cArr22 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; dArr21 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; drArr22 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; crArr2 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; bArr2 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">ArrayList&lt;Coordinate&gt; caArr2 = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s1">Ships c21 = </span><span class="s0">new </span><span class="s1">Ships(cArr21</span><span class="s0">, </span><span class="s2">&quot;Corvette&quot;</span><span class="s0">, </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships c22 = </span><span class="s0">new </span><span class="s1">Ships(cArr22</span><span class="s0">, </span><span class="s2">&quot;Corvette&quot;</span><span class="s0">, </span><span class="s3">3</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships d21 = </span><span class="s0">new </span><span class="s1">Ships(dArr21</span><span class="s0">, </span><span class="s2">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s3">4</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships d22 = </span><span class="s0">new </span><span class="s1">Ships(drArr22</span><span class="s0">, </span><span class="s2">&quot;Destroyer&quot;</span><span class="s0">, </span><span class="s3">4</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships cr2 = </span><span class="s0">new </span><span class="s1">Ships(crArr2</span><span class="s0">, </span><span class="s2">&quot;Cruiser&quot;</span><span class="s0">, </span><span class="s3">5</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships b2 = </span><span class="s0">new </span><span class="s1">Ships(bArr2</span><span class="s0">, </span><span class="s2">&quot;Battleship&quot;</span><span class="s0">, </span><span class="s3">5</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">Ships ca2 = </span><span class="s0">new </span><span class="s1">Ships(caArr2</span><span class="s0">, </span><span class="s2">&quot;Carrier&quot;</span><span class="s0">, </span><span class="s3">6</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">arr2.add(c21)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(c22)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(d21)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(d22)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(cr2)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(b2)</span><span class="s0">;</span>
+        <span class="s1">arr2.add(ca2)</span><span class="s0">;</span>
+
+        <span class="s0">this</span><span class="s1">.map1 = </span><span class="s0">new </span><span class="s1">Coordinate[</span><span class="s3">11</span><span class="s1">][</span><span class="s3">11</span><span class="s1">][</span><span class="s3">11</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.map2 = </span><span class="s0">new </span><span class="s1">Coordinate[</span><span class="s3">11</span><span class="s1">][</span><span class="s3">11</span><span class="s1">][</span><span class="s3">11</span><span class="s1">]</span><span class="s0">;</span>
+
+        <span class="s0">this</span><span class="s1">.p1 = </span><span class="s0">new </span><span class="s1">Player(arr1</span><span class="s0">,</span><span class="s1">map1</span><span class="s0">,</span><span class="s2">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.p2 = </span><span class="s0">new </span><span class="s1">Player(arr2</span><span class="s0">,</span><span class="s1">map2</span><span class="s0">,</span><span class="s2">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s0">this</span><span class="s1">.s = </span><span class="s0">new </span><span class="s1">SavePlayerData()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">Run() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s0">this</span><span class="s1">.setup()</span><span class="s0">;</span>
+        <span class="s1">System.out.print(</span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[H</span><span class="s0">\033</span><span class="s2">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.place()</span><span class="s0">;</span>
+        <span class="s1">System.out.print(</span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[H</span><span class="s0">\033</span><span class="s2">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.play()</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.save()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setup() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s1">setPlayers()</span><span class="s0">;</span>
+        <span class="s1">setMap(map1)</span><span class="s0">;</span>
+        <span class="s1">setMap(map2)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">place() {</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;It is &quot; </span><span class="s1">+ p1.getUser() + </span><span class="s2">&quot;'s turn to place their ships.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s3">7</span><span class="s0">; </span><span class="s1">i++)</span>
+        <span class="s1">{</span>
+            <span class="s1">placeShips(i</span><span class="s0">, </span><span class="s1">p1.getMap()</span><span class="s0">, </span><span class="s1">p1.getArr()</span><span class="s0">, true</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">hideMap(p1.getMap())</span><span class="s0">;</span>
+        <span class="s1">System.out.print(</span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[H</span><span class="s0">\033</span><span class="s2">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;It is &quot; </span><span class="s1">+ p2.getUser() + </span><span class="s2">&quot;'s turn to place their ships.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s3">7</span><span class="s0">; </span><span class="s1">i++)</span>
+        <span class="s1">{</span>
+            <span class="s1">placeShips(i</span><span class="s0">, </span><span class="s1">p2.getMap()</span><span class="s0">, </span><span class="s1">p2.getArr()</span><span class="s0">, true</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">hideMap(p2.getMap())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setPlayers() </span><span class="s0">throws </span><span class="s1">IOException {</span>
+        <span class="s1">Scanner input = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+        <span class="s1">String tempName</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">numChoice</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">pOne = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">pTwo = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;PLAYER ONE&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;If you are a returning player, enter (1) to find your username. </span><span class="s0">\n</span><span class="s2">If you are a new player, enter (2) to create a new username.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">numChoice = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(numChoice == </span><span class="s3">1</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s0">boolean </span><span class="s1">isValid = </span><span class="s0">false;</span>
+            <span class="s1">SavePlayerData tempSave = </span><span class="s0">new </span><span class="s1">SavePlayerData()</span><span class="s0">;</span>
+            <span class="s1">tempSave.setPlayerArr(s.getPlayerArr())</span><span class="s0">;</span>
+            <span class="s1">System.out.print(s.toString())</span><span class="s0">;</span>
+            <span class="s0">while</span><span class="s1">(!isValid) {</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Find your username below. Enter the wanted user name by inputting its corresponding number:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">tempSave.toString()</span><span class="s0">;</span>
+                <span class="s1">pOne = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(pOne &gt; -</span><span class="s3">1 </span><span class="s1">&amp;&amp; pOne &lt; s.getPlayerArr().size())</span>
+                <span class="s1">{</span>
+                    <span class="s1">isValid = </span><span class="s0">true;</span>
+                    <span class="s1">p1 = s.getPlayerArr().get(pOne)</span><span class="s0">;</span>
+                    <span class="s1">p1.setArr(arr1)</span><span class="s0">;</span>
+                    <span class="s1">p1.setMap(map1)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span>
+                <span class="s1">{</span>
+                    <span class="s1">pOne = -</span><span class="s3">1</span><span class="s0">;</span>
+                    <span class="s1">System.out.println(</span><span class="s2">&quot;Error: Number out of bounds&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">(numChoice == </span><span class="s3">2</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Enter a new username below:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">tempName = input.nextLine()</span><span class="s0">;</span>
+            <span class="s1">Player tempPlayer = </span><span class="s0">new </span><span class="s1">Player (tempName</span><span class="s0">, </span><span class="s3">0</span><span class="s0">, </span><span class="s3">0</span><span class="s0">, </span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">p1 = tempPlayer</span><span class="s0">;</span>
+            <span class="s1">p1.setUser(tempName)</span><span class="s0">;</span>
+            <span class="s1">p1.setArr(arr1)</span><span class="s0">;</span>
+            <span class="s1">p1.setMap(map1)</span><span class="s0">;</span>
+            <span class="s1">s.getPlayerArr().add(tempPlayer)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">System.out.println(</span><span class="s2">&quot;PLAYER TWO&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;If you are a returning player, enter (1) to find your username. </span><span class="s0">\n</span><span class="s2">If you are a new player, enter (2) to create a new username.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">numChoice = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(numChoice == </span><span class="s3">1</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s0">boolean </span><span class="s1">isValid = </span><span class="s0">false;</span>
+            <span class="s1">SavePlayerData tempSave = </span><span class="s0">new </span><span class="s1">SavePlayerData()</span><span class="s0">;</span>
+            <span class="s1">tempSave.setPlayerArr(s.getPlayerArr())</span><span class="s0">;</span>
+            <span class="s0">while</span><span class="s1">(!isValid) {</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Find your username below. Enter the wanted user name by inputting its corresponding number:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">System.out.println(tempSave.toString())</span><span class="s0">;</span>
+                <span class="s1">pTwo = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(pTwo &gt; -</span><span class="s3">1 </span><span class="s1">&amp;&amp; pTwo &lt; s.getPlayerArr().size() &amp;&amp; pOne != pTwo)</span>
+                <span class="s1">{</span>
+                    <span class="s1">isValid = </span><span class="s0">true;</span>
+                    <span class="s1">p2 = s.getPlayerArr().get(pTwo)</span><span class="s0">;</span>
+                    <span class="s1">p2.setArr(arr2)</span><span class="s0">;</span>
+                    <span class="s1">p2.setMap(map2)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span>
+                <span class="s1">{</span>
+                    <span class="s1">pTwo = -</span><span class="s3">1</span><span class="s0">;</span>
+                    <span class="s1">System.out.println(</span><span class="s2">&quot;Error: Number out of bounds&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">(numChoice == </span><span class="s3">2</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Enter a new username below:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">tempName = input.nextLine()</span><span class="s0">;</span>
+            <span class="s1">Player tempPlayer = </span><span class="s0">new </span><span class="s1">Player(tempName</span><span class="s0">,</span><span class="s3">0</span><span class="s0">,</span><span class="s3">0</span><span class="s0">,</span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">p2 = tempPlayer</span><span class="s0">;</span>
+            <span class="s1">p2.setUser(tempName)</span><span class="s0">;</span>
+            <span class="s1">p2.setArr(arr2)</span><span class="s0">;</span>
+            <span class="s1">p2.setMap(map2)</span><span class="s0">;</span>
+            <span class="s1">s.getPlayerArr().add(tempPlayer)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setMap(Coordinate[][][] m) {</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">x = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">x &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">x++) {</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">y = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">y &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">y++) {</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">z = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">z &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">z++) {</span>
+                    <span class="s1">Coordinate temp = </span><span class="s0">new </span><span class="s1">Coordinate(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s1">z</span><span class="s0">, false, false, </span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[0;33m&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">m[x][y][z] = temp</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">hideMap(Coordinate[][][] m) {</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">x = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">x &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">x++) {</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">y = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">y &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">y++) {</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">z = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">z &lt; </span><span class="s3">11</span><span class="s0">; </span><span class="s1">z++) {</span>
+                    <span class="s1">m[x][y][z].setAmRevealed(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Coordinate[][][] getMap1() {</span>
+        <span class="s0">return </span><span class="s1">map1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Coordinate[][][] getMap2() {</span>
+        <span class="s0">return </span><span class="s1">map2</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">ArrayList&lt;Ships&gt; getArr1() {</span>
+        <span class="s0">return </span><span class="s1">arr1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">ArrayList&lt;Ships&gt; getArr2() {</span>
+        <span class="s0">return </span><span class="s1">arr2</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public static void </span><span class="s1">printMap(Coordinate[][][] m) {</span>
+        <span class="s1">System.out.println(</span><span class="s2">&quot;  0  1  2  3  4  5  6  7  8  9&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">y = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">y &lt; </span><span class="s3">10</span><span class="s0">; </span><span class="s1">y++) {</span>
+            <span class="s1">System.out.print(y + </span><span class="s2">&quot; &quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">x = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">x &lt; </span><span class="s3">10</span><span class="s0">; </span><span class="s1">x++) {</span>
+                <span class="s0">int </span><span class="s1">z = </span><span class="s3">0</span><span class="s0">;</span>
+                <span class="s0">boolean </span><span class="s1">canPrint = </span><span class="s0">false;</span>
+                <span class="s0">while </span><span class="s1">(!canPrint) {</span>
+                    <span class="s0">if </span><span class="s1">(m[x][y][z].getAmRevealed() == </span><span class="s0">true</span><span class="s1">) {</span>
+                        <span class="s1">canPrint = </span><span class="s0">true;</span>
+                        <span class="s1">System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + </span><span class="s2">&quot; &quot; </span><span class="s1">+ </span><span class="s2">&quot;</span><span class="s0">\u001B</span><span class="s2">[0m&quot; </span><span class="s1">+ </span><span class="s2">&quot; &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">if </span><span class="s1">(z == </span><span class="s3">10</span><span class="s1">) {</span>
+                        <span class="s1">canPrint = </span><span class="s0">true;</span>
+                        <span class="s1">System.out.print(</span><span class="s2">&quot;   &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s1">z++</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s1">System.out.println()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">System.out.println()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">placeCheck(Coordinate[][][] map</span><span class="s0">, </span><span class="s1">ArrayList&lt;Coordinate&gt; arr) {</span>
+        <span class="s0">boolean </span><span class="s1">output = </span><span class="s0">true;</span>
+        <span class="s0">for </span><span class="s1">(Coordinate v : arr) {</span>
+            <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">x = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">x &lt; </span><span class="s3">10</span><span class="s0">; </span><span class="s1">x++) {</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">y = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">y &lt; </span><span class="s3">10</span><span class="s0">; </span><span class="s1">y++) {</span>
+                    <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">z = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">z &lt; </span><span class="s3">10</span><span class="s0">; </span><span class="s1">z++) {</span>
+                        <span class="s0">if </span><span class="s1">(map[x][y][z].getShipHere()) {</span>
+                            <span class="s0">if </span><span class="s1">(v.getShipHere() &amp;&amp; map[x][y][z].getXCoord() == v.getXCoord() &amp;&amp; map[x][y][z].getYCoord() == v.getYCoord() &amp;&amp; map[x][y][z].getZCoord() == v.getZCoord()) {</span>
+                                <span class="s1">output = </span><span class="s0">false;</span>
+                                <span class="s1">System.out.println(output + </span><span class="s2">&quot;1, &quot; </span><span class="s1">+ map[x][y][z].getXCoord() + map[x][y][z].getXCoord() + map[x][y][z].getXCoord() + </span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot; </span><span class="s1">+ v.getXCoord() + v.getYCoord() + v.getZCoord())</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">for </span><span class="s1">(Coordinate v : arr)</span>
+        <span class="s1">{</span>
+            <span class="s0">if </span><span class="s1">(v.getYCoord() &gt; </span><span class="s3">10</span><span class="s1">) {</span>
+                <span class="s1">output = </span><span class="s0">false;</span>
+            <span class="s1">}</span>
+            <span class="s0">if </span><span class="s1">(v.getXCoord() &gt; </span><span class="s3">10</span><span class="s1">) {</span>
+                <span class="s1">output = </span><span class="s0">false;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">output</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">placeShips(</span><span class="s0">int </span><span class="s1">counter</span><span class="s0">, </span><span class="s1">Coordinate[][][] map</span><span class="s0">, </span><span class="s1">ArrayList&lt;Ships&gt; arr</span><span class="s0">, boolean </span><span class="s1">amRevealed) {</span>
+        <span class="s0">int </span><span class="s1">x = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">y = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">z = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s1">String direction = </span><span class="s2">&quot;v&quot;</span><span class="s0">;</span>
+        <span class="s0">boolean </span><span class="s1">isValid = </span><span class="s0">false;</span>
+        <span class="s1">Scanner input = </span><span class="s0">new </span><span class="s1">Scanner(System.in)</span><span class="s0">;</span>
+            <span class="s0">while </span><span class="s1">(!isValid) {</span>
+            <span class="s1">System.out.print((counter + </span><span class="s3">1</span><span class="s1">) + </span><span class="s2">&quot;. &quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Input the X coordinate for the front of your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot;. It must be between 0 and 9.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">x = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Input the Y coordinate for the front of your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot;. It must be between 0 and 9.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">y = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Input the Z coordinate for the front of your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot;. It must be between 0 and 9.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">z = Integer.parseInt(input.nextLine())</span><span class="s0">;</span>
+            <span class="s1">System.out.println(</span><span class="s2">&quot;Input the direction you would like your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot; to face. Input (v) for the ship to face vertically, and (h) for the ship to face horizontally.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">direction = input.nextLine()</span><span class="s0">;</span>
+
+            <span class="s1">Coordinate[][][] tempMap = </span><span class="s0">new </span><span class="s1">Coordinate[</span><span class="s3">17</span><span class="s1">][</span><span class="s3">17</span><span class="s1">][</span><span class="s3">11</span><span class="s1">]</span><span class="s0">;</span>
+            <span class="s1">setMap(tempMap)</span><span class="s0">;</span>
+            <span class="s1">ArrayList&lt;Coordinate&gt; tempArr = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+            <span class="s0">if </span><span class="s1">(direction.equals(</span><span class="s2">&quot;v&quot;</span><span class="s1">)) {</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">j &lt; arr.get(counter).getLen()</span><span class="s0">; </span><span class="s1">j++) {</span>
+                    <span class="s1">Coordinate tempCoord = </span><span class="s0">new </span><span class="s1">Coordinate(x</span><span class="s0">, </span><span class="s1">y + j</span><span class="s0">, </span><span class="s1">z</span><span class="s0">, true, true, </span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[0;33m&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">tempMap[x][y + j][z] = tempCoord</span><span class="s0">;</span>
+                    <span class="s1">tempArr.add(tempCoord)</span><span class="s0">;</span>
+                    <span class="s1">System.out.println(tempCoord.toString())</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">j &lt; arr.get(counter).getLen()</span><span class="s0">; </span><span class="s1">j++) {</span>
+                    <span class="s1">Coordinate tempCoord = </span><span class="s0">new </span><span class="s1">Coordinate(x + j</span><span class="s0">, </span><span class="s1">y </span><span class="s0">, </span><span class="s1">z</span><span class="s0">, true, true, </span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[0;33m&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">tempMap[x + j][y][z] = tempCoord</span><span class="s0">;</span>
+                    <span class="s1">tempArr.add(tempCoord)</span><span class="s0">;</span>
+                    <span class="s1">System.out.println(tempCoord.toString())</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s1">isValid = placeCheck(map</span><span class="s0">, </span><span class="s1">tempArr)</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(isValid) {</span>
+                <span class="s1">arr.get(counter).setCoordArr(tempArr)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(direction.equals(</span><span class="s2">&quot;v&quot;</span><span class="s1">)) {</span>
+                    <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">j &lt; arr.get(counter).getLen()</span><span class="s0">; </span><span class="s1">j++) {</span>
+                        <span class="s1">map[x][y + j][z] = arr.get(counter).getCoordArr().get(j)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s3">0</span><span class="s0">; </span><span class="s1">j &lt; arr.get(counter).getLen()</span><span class="s0">; </span><span class="s1">j++) {</span>
+                        <span class="s1">map[x + j][y][z] = arr.get(counter).getCoordArr().get(j)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot; has been deployed to the battlefield!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">printMap(map)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">else if </span><span class="s1">(!isValid)</span>
+            <span class="s1">{</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Error: Please reenter data for your &quot; </span><span class="s1">+ arr.get(counter).getClassType() + </span><span class="s2">&quot;.&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public void </span><span class="s1">play()</span>
+    <span class="s1">{</span>
+        <span class="s0">int </span><span class="s1">counter = </span><span class="s3">1</span><span class="s0">;</span>
+        <span class="s0">while </span><span class="s1">(isGameOver() != </span><span class="s0">true</span><span class="s1">)</span>
+        <span class="s1">{</span>
+            <span class="s0">if </span><span class="s1">(counter % </span><span class="s3">2 </span><span class="s1">== </span><span class="s3">1</span><span class="s1">)</span>
+            <span class="s1">{</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Your map currently looks like this:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">printMap(map1)</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;The enemy's map currently looks like this:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">printMap(map2)</span><span class="s0">;</span>
+                <span class="s1">p1.takeTurn(map2</span><span class="s0">, </span><span class="s1">arr2)</span><span class="s0">;</span>
+                <span class="s1">counter++</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(isGameOver())</span>
+                <span class="s1">{</span>
+                    <span class="s1">printMap(map2)</span><span class="s0">;</span>
+                    <span class="s0">break;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s1">System.out.print(</span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[H</span><span class="s0">\033</span><span class="s2">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">printMap(map2)</span><span class="s0">;</span>
+
+            <span class="s0">if </span><span class="s1">(counter % </span><span class="s3">2 </span><span class="s1">== </span><span class="s3">0</span><span class="s1">)</span>
+            <span class="s1">{</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;Your map currently looks like this:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">printMap(map2)</span><span class="s0">;</span>
+                <span class="s1">System.out.println(</span><span class="s2">&quot;The enemy's map currently looks like this:&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">printMap(map1)</span><span class="s0">;</span>
+                <span class="s1">p2.takeTurn(map1</span><span class="s0">, </span><span class="s1">arr2)</span><span class="s0">;</span>
+                <span class="s1">counter++</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(isGameOver())</span>
+                <span class="s1">{</span>
+                    <span class="s1">printMap(map1)</span><span class="s0">;</span>
+                    <span class="s0">break;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s1">System.out.print(</span><span class="s2">&quot;</span><span class="s0">\033</span><span class="s2">[H</span><span class="s0">\033</span><span class="s2">[2J&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">printMap(map1)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public boolean </span><span class="s1">isGameOver()</span>
+    <span class="s1">{</span>
+        <span class="s0">boolean </span><span class="s1">output = </span><span class="s0">false;</span>
+        <span class="s0">int </span><span class="s1">counterOne = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s0">int </span><span class="s1">counterTwo = </span><span class="s3">0</span><span class="s0">;</span>
+        <span class="s0">for </span><span class="s1">(Ships v : arr1) {</span>
+            <span class="s0">if </span><span class="s1">(v.isDestroyed())</span>
+            <span class="s1">{</span>
+                <span class="s1">counterOne++</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">if </span><span class="s1">(counterOne == arr1.size())</span>
+            <span class="s1">{</span>
+                <span class="s1">output = </span><span class="s0">true;</span>
+                <span class="s1">p2.setGamesWon()</span><span class="s0">;</span>
+                <span class="s1">p1.setGamesLost()</span><span class="s0">;</span>
+                <span class="s1">System.out.println(p2.getUser() + </span><span class="s2">&quot; has won!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">for </span><span class="s1">(Ships v : arr2) {</span>
+            <span class="s0">if </span><span class="s1">(v.isDestroyed())</span>
+            <span class="s1">{</span>
+                <span class="s1">counterTwo++</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">if </span><span class="s1">(counterTwo == arr2.size())</span>
+            <span class="s1">{</span>
+                <span class="s1">output = </span><span class="s0">true;</span>
+                <span class="s1">p1.setGamesWon()</span><span class="s0">;</span>
+                <span class="s1">p2.setGamesLost()</span><span class="s0">;</span>
+                <span class="s1">System.out.println(p1.getUser() + </span><span class="s2">&quot; has won!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">output</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public void </span><span class="s1">save()</span>
+    <span class="s1">{</span>
+        <span class="s1">saveData()</span><span class="s0">;</span>
+        <span class="s1">savePlayerArray()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">savePlayerArray()</span>
+    <span class="s1">{</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">File saveData = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;src/arraySaver&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">saveData.createNewFile()</span><span class="s0">;</span>
+            <span class="s1">FileWriter writer = </span><span class="s0">new </span><span class="s1">FileWriter(</span><span class="s2">&quot;src/arraySaver&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(Player v : s.getPlayerArr()) {</span>
+                <span class="s1">writer.write(v.getUser() + </span><span class="s2">&quot;|&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(v.getGamesWon() + </span><span class="s2">&quot;|&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(v.getGamesLost() + </span><span class="s2">&quot;|&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(v.getShipsDestroyed() + </span><span class="s2">&quot;</span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">writer.close()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(IOException e)</span>
+        <span class="s1">{</span>
+            <span class="s1">System.out.print(</span><span class="s2">&quot;Error: Cannot create file&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">saveData()</span>
+    <span class="s1">{</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">File saveData = </span><span class="s0">new </span><span class="s1">File(</span><span class="s2">&quot;src/leaderboard&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">saveData.createNewFile()</span><span class="s0">;</span>
+            <span class="s1">FileWriter writer = </span><span class="s0">new </span><span class="s1">FileWriter(</span><span class="s2">&quot;src/leaderboard&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(Player v : s.getPlayerArr()) {</span>
+                <span class="s1">writer.write(</span><span class="s2">&quot;&lt;&quot; </span><span class="s1">+ v.getUser() + </span><span class="s2">&quot;&gt; &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(</span><span class="s2">&quot;&lt;&quot; </span><span class="s1">+ v.getGamesWon() + </span><span class="s2">&quot; Games Won&gt; &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(</span><span class="s2">&quot;&lt;&quot; </span><span class="s1">+ v.getGamesLost() + </span><span class="s2">&quot; Games Lost&gt; &quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">writer.write(</span><span class="s2">&quot;&lt;&quot; </span><span class="s1">+ v.getShipsDestroyed() + </span><span class="s2">&quot; Ships Destroyed&gt; </span><span class="s0">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">writer.close()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(IOException e)</span>
+        <span class="s1">{</span>
+            <span class="s1">System.out.print(</span><span class="s2">&quot;Error: Cannot create file&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>
