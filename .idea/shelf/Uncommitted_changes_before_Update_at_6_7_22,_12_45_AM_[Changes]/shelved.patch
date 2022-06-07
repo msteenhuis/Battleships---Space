@@ -1,0 +1,171 @@
+Index: src/Player.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.ArrayList;\nimport java.util.Scanner;\n\npublic class Player {\n    private ArrayList<Ships> arr;\n    private Coordinate[][][] map;\n    private String user;\n    private int shipsDestroyed;\n    private int gamesWon;\n    private int gamesLost;\n\n    public Player(ArrayList<Ships> s, Coordinate[][][] m, String u, int d, int w, int l)\n    {\n        this.arr = s;\n        this.map = m;\n        this.user = u;\n        this.shipsDestroyed = d;\n        this.gamesWon = w;\n        this.gamesLost = l;\n    }\n\n    public Player( String u, int d, int w, int l)\n    {\n        this.user = u;\n        this.shipsDestroyed = d;\n        this.gamesWon = w;\n        this.gamesLost = l;\n    }\n\n    public Player(ArrayList<Ships> s, Coordinate[][][] m, String u)\n    {\n        this.arr = s;\n        this.map = m;\n        this.user = u;\n    }\n\n    public ArrayList<Ships> getArr()\n    {\n        return arr;\n    }\n\n    public int getGamesWon()\n    {\n        return gamesWon;\n    }\n\n    public void setGamesWon()\n    {\n        gamesWon++;\n    }\n\n    public int getGamesLost()\n    {\n        return gamesLost;\n    }\n\n    public void setGamesLost()\n    {\n        gamesLost++;\n    }\n\n    public int getShipsDestroyed()\n    {\n        return shipsDestroyed;\n    }\n\n    public void setShipsDestroyed()\n    {\n        shipsDestroyed++;\n    }\n\n    public void setArr(ArrayList<Ships> a) {\n        arr = a;\n    }\n\n    public Coordinate[][][] getMap()\n    {\n        return map;\n    }\n\n    public void setMap(Coordinate[][][] m)\n    {\n        map = m;\n    }\n\n    public String getUser()\n    {\n        return user;\n    }\n\n    public void setUser(String u)\n    {\n        user = u;\n    }\n\n    public void takeTurn(Coordinate[][][] enemyMap, ArrayList<Ships> enemyShips)\n    {\n        Scanner input = new Scanner(System.in);\n        int x = 0;\n        int y = 0;\n        int z = 0;\n        Ships damagedShips = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);\n        System.out.println(\"Our battery is ready,\" + user + \". Enter the X coordinate to be fired upon. It must be between 0 and 9:\");\n        x = Integer.parseInt(input.nextLine());\n        System.out.println(\"Enter the Y coordinate to be fired upon. It must be between 0 and 9:\");\n        y = Integer.parseInt(input.nextLine());\n        System.out.println(\"Enter the Z coordinate to be fired upon. It must be between 0 and 9:\");\n        z = Integer.parseInt(input.nextLine());\n\n        System.out.println(\"Firing\");\n\n        if (enemyMap[x][y][z].getShipHere())\n        {\n            if (enemyMap[x][y][z].getShipDamaged())\n            {\n                System.out.println(\"Your ship has targeted a ship, but the area was already damaged!\");\n            }\n            else\n            {\n                enemyMap[x][y][z].setColorIndicator(\"\\u001B[31m\");\n                if (damagedShips.isDestroyed())\n                {\n                    this.setShipsDestroyed();\n                }\n            }\n        }\n        System.out.println(\"Your fleet has successfully damaged the enemey's corvette!\");\n        System.out.println(\"Your fleet has successfully destroyed the enemey's corvette!\");\n        enemyMap[x][y][z].setAmRevealed(true);\n        enemyMap[x][y][z].setColorIndicator(\"\\u001B[31m\");\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Player.java b/src/Player.java
+--- a/src/Player.java	(revision 9675126b763385934124065b8c9f0de0b8913db4)
++++ b/src/Player.java	(date 1654577084795)
+@@ -99,7 +99,6 @@
+         int x = 0;
+         int y = 0;
+         int z = 0;
+-        Ships damagedShips = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);
+         System.out.println("Our battery is ready," + user + ". Enter the X coordinate to be fired upon. It must be between 0 and 9:");
+         x = Integer.parseInt(input.nextLine());
+         System.out.println("Enter the Y coordinate to be fired upon. It must be between 0 and 9:");
+@@ -118,15 +117,18 @@
+             else
+             {
+                 enemyMap[x][y][z].setColorIndicator("\u001B[31m");
+-                if (damagedShips.isDestroyed())
++                Ships damagedShip = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);
++                if (damagedShip.isDestroyed())
+                 {
++                    System.out.println("Your fleet has successfully destroyed the enemey's " + damagedShip.getClassType() + "!");
+                     this.setShipsDestroyed();
+                 }
+             }
+         }
+-        System.out.println("Your fleet has successfully damaged the enemey's corvette!");
+-        System.out.println("Your fleet has successfully destroyed the enemey's corvette!");
++        else
++        {
++            System.out.println("It seems our fleet has missed");
++        }
+         enemyMap[x][y][z].setAmRevealed(true);
+-        enemyMap[x][y][z].setColorIndicator("\u001B[31m");
+     }
+-}
++}
+\ No newline at end of file
+Index: src/MethodBank.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.File;\nimport java.io.FileWriter;\nimport java.io.IOException;\nimport java.util.ArrayList;\nimport java.util.Scanner;\n\npublic class MethodBank {\n\n    private ArrayList<Ships> arr1 = new ArrayList<>();\n    private ArrayList<Ships> arr2 = new ArrayList<>();\n    private Coordinate[][][] map1;\n    private Coordinate[][][] map2;\n    private Player p1;\n    private Player p2;\n    private SavePlayerData s;\n\n    public MethodBank() throws IOException {\n        ArrayList<Coordinate> cArr11 = new ArrayList<>();\n        ArrayList<Coordinate> cArr12 = new ArrayList<>();\n        ArrayList<Coordinate> dArr11 = new ArrayList<>();\n        ArrayList<Coordinate> dArr12 = new ArrayList<>();\n        ArrayList<Coordinate> crArr1 = new ArrayList<>();\n        ArrayList<Coordinate> bArr1 = new ArrayList<>();\n        ArrayList<Coordinate> caArr1 = new ArrayList<>();\n\n        Ships c11 = new Ships(cArr11, \"Corvette\", 3);\n        Ships c12 = new Ships(cArr12, \"Corvette\", 3);\n        Ships d11 = new Ships(dArr11, \"Destroyer\", 4);\n        Ships d12 = new Ships(dArr12, \"Destroyer\", 4);\n        Ships cr1 = new Ships(crArr1, \"Cruiser\", 5);\n        Ships b1 = new Ships(bArr1, \"Battleship\", 6);\n        Ships ca1 = new Ships(caArr1, \"Carrier\", 6);\n\n        arr1.add(c11);\n        arr1.add(c12);\n        arr1.add(d11);\n        arr1.add(d12);\n        arr1.add(cr1);\n        arr1.add(b1);\n        arr1.add(ca1);\n\n        ArrayList<Coordinate> cArr21 = new ArrayList<>();\n        ArrayList<Coordinate> cArr22 = new ArrayList<>();\n        ArrayList<Coordinate> dArr21 = new ArrayList<>();\n        ArrayList<Coordinate> drArr22 = new ArrayList<>();\n        ArrayList<Coordinate> crArr2 = new ArrayList<>();\n        ArrayList<Coordinate> bArr2 = new ArrayList<>();\n        ArrayList<Coordinate> caArr2 = new ArrayList<>();\n\n        Ships c21 = new Ships(cArr21, \"Corvette\", 3);\n        Ships c22 = new Ships(cArr22, \"Corvette\", 3);\n        Ships d21 = new Ships(dArr21, \"Destroyer\", 4);\n        Ships d22 = new Ships(drArr22, \"Destroyer\", 4);\n        Ships cr2 = new Ships(crArr2, \"Cruiser\", 5);\n        Ships b2 = new Ships(bArr2, \"Battleship\", 5);\n        Ships ca2 = new Ships(caArr2, \"Carrier\", 6);\n\n        arr2.add(c21);\n        arr2.add(c22);\n        arr2.add(d21);\n        arr2.add(d22);\n        arr2.add(cr2);\n        arr2.add(b2);\n        arr2.add(ca2);\n\n        this.map1 = new Coordinate[11][11][11];\n        this.map2 = new Coordinate[11][11][11];\n\n        this.p1 = new Player(arr1,map1,\"\");\n        this.p2 = new Player(arr2,map2,\"\");\n\n        this.s = new SavePlayerData();\n    }\n\n    public void Run() throws IOException {\n        this.setup();\n        //System.out.print(\"\\033[H\\033[2J\");\n        //this.place();\n        System.out.print(\"\\033[H\\033[2J\");\n        this.play();\n        this.save();\n    }\n\n    public void setup() throws IOException {\n        setPlayers();\n        setMap(map1);\n        setMap(map2);\n    }\n\n    public void place() {\n        System.out.println(\"It is \" + p1.getUser() + \"'s turn to place their ships.\");\n        for (int i = 0; i < 7; i++)\n        {\n            placeShips(i, p1.getMap(), p1.getArr(), true);\n        }\n        hideMap(p1.getMap());\n        System.out.print(\"\\033[H\\033[2J\");\n        System.out.println(\"It is \" + p2.getUser() + \"'s turn to place their ships.\");\n        for (int i = 0; i < 7; i++)\n        {\n            placeShips(i, p2.getMap(), p2.getArr(), true);\n        }\n        hideMap(p2.getMap());\n    }\n\n    public void setPlayers() throws IOException {\n        Scanner input = new Scanner(System.in);\n        String tempName;\n        int numChoice;\n        int pOne = 0;\n        int pTwo = 0;\n        System.out.println(\"PLAYER ONE\");\n        System.out.println(\"If you are a returning player, enter (1) to find your username. \\nIf you are a new player, enter (2) to create a new username.\");\n        numChoice = Integer.parseInt(input.nextLine());\n        if (numChoice == 1)\n        {\n            boolean isValid = false;\n            SavePlayerData tempSave = new SavePlayerData();\n            tempSave.setPlayerArr(s.getPlayerArr());\n            System.out.print(s.toString());\n            while(!isValid) {\n                System.out.println(\"Find your username below. Enter the wanted user name by inputting its corresponding number:\");\n                tempSave.toString();\n                pOne = Integer.parseInt(input.nextLine());\n                if (pOne > -1 && pOne < s.getPlayerArr().size())\n                {\n                    isValid = true;\n                    p1 = s.getPlayerArr().get(pOne);\n                    p1.setArr(arr1);\n                    p1.setMap(map1);\n                }\n                else\n                {\n                    pOne = -1;\n                    System.out.println(\"Error: Number out of bounds\");\n\n                }\n            }\n        }\n        if (numChoice == 2)\n        {\n            System.out.println(\"Enter a new username below:\");\n            tempName = input.nextLine();\n            Player tempPlayer = new Player (tempName, 0, 0, 0);\n            p1 = tempPlayer;\n            p1.setUser(tempName);\n            p1.setArr(arr1);\n            p1.setMap(map1);\n            s.getPlayerArr().add(tempPlayer);\n        }\n\n        System.out.println(\"PLAYER TWO\");\n        System.out.println(\"If you are a returning player, enter (1) to find your username. \\nIf you are a new player, enter (2) to create a new username.\");\n        numChoice = Integer.parseInt(input.nextLine());\n        if (numChoice == 1)\n        {\n            boolean isValid = false;\n            SavePlayerData tempSave = new SavePlayerData();\n            tempSave.setPlayerArr(s.getPlayerArr());\n            while(!isValid) {\n                System.out.println(\"Find your username below. Enter the wanted user name by inputting its corresponding number:\");\n                System.out.println(tempSave.toString());\n                pTwo = Integer.parseInt(input.nextLine());\n                if (pTwo > -1 && pTwo < s.getPlayerArr().size() && pOne != pTwo)\n                {\n                    isValid = true;\n                    p2 = s.getPlayerArr().get(pTwo);\n                    p2.setArr(arr2);\n                    p2.setMap(map2);\n                }\n                else\n                {\n                    pTwo = -1;\n                    System.out.println(\"Error: Number out of bounds\");\n                }\n            }\n        }\n        if (numChoice == 2)\n        {\n            System.out.println(\"Enter a new username below:\");\n            tempName = input.nextLine();\n            Player tempPlayer = new Player(tempName,0,0,0);\n            p2 = tempPlayer;\n            p2.setUser(tempName);\n            p2.setArr(arr2);\n            p2.setMap(map2);\n            s.getPlayerArr().add(tempPlayer);\n        }\n    }\n\n    public void setMap(Coordinate[][][] m) {\n        for (int x = 0; x < 11; x++) {\n            for (int y = 0; y < 11; y++) {\n                for (int z = 0; z < 11; z++) {\n                    Coordinate temp = new Coordinate(x, y, z, false, false, \"\\033[0;33m\");\n                    m[x][y][z] = temp;\n                }\n            }\n        }\n    }\n\n    public void hideMap(Coordinate[][][] m) {\n        for (int x = 0; x < 11; x++) {\n            for (int y = 0; y < 11; y++) {\n                for (int z = 0; z < 11; z++) {\n                    m[x][y][z].setAmRevealed(false);\n                }\n            }\n        }\n    }\n\n    public Coordinate[][][] getMap1() {\n        return map1;\n    }\n\n    public Coordinate[][][] getMap2() {\n        return map2;\n    }\n\n    public ArrayList<Ships> getArr1() {\n        return arr1;\n    }\n\n    public ArrayList<Ships> getArr2() {\n        return arr2;\n    }\n\n\n    public static void printMap(Coordinate[][][] m) {\n        System.out.println(\"  0  1  2  3  4  5  6  7  8  9\");\n        for (int y = 0; y < 10; y++) {\n            System.out.print(y + \" \");\n            for (int x = 0; x < 10; x++) {\n                int z = 0;\n                boolean canPrint = false;\n                while (!canPrint) {\n                    if (m[x][y][z].getAmRevealed() == true) {\n                        canPrint = true;\n                        System.out.print(m[x][y][z].getColorIndicator() + m[x][y][z].getZCoord() + \" \" + \"\\u001B[0m\" + \" \");\n                    }\n                    if (z == 10) {\n                        canPrint = true;\n                        System.out.print(\"   \");\n                    }\n                    z++;\n                }\n            }\n            System.out.println();\n        }\n        System.out.println();\n    }\n\n    public boolean placeCheck(Coordinate[][][] map, ArrayList<Coordinate> arr) {\n        boolean output = true;\n        for (Coordinate v : arr) {\n            for (int x = 0; x < 10; x++) {\n                for (int y = 0; y < 10; y++) {\n                    for (int z = 0; z < 10; z++) {\n                        if (map[x][y][z].getShipHere()) {\n                            if (v.getShipHere() && map[x][y][z].getXCoord() == v.getXCoord() && map[x][y][z].getYCoord() == v.getYCoord() && map[x][y][z].getZCoord() == v.getZCoord()) {\n                                output = false;\n                                System.out.println(output + \"1, \" + map[x][y][z].getXCoord() + map[x][y][z].getXCoord() + map[x][y][z].getXCoord() + \"\\n\" + v.getXCoord() + v.getYCoord() + v.getZCoord());\n                            }\n                        }\n                    }\n                }\n            }\n        }\n        for (Coordinate v : arr)\n        {\n            if (v.getYCoord() > 10) {\n                output = false;\n            }\n            if (v.getXCoord() > 10) {\n                output = false;\n            }\n        }\n        return output;\n    }\n\n    public void placeShips(int counter, Coordinate[][][] map, ArrayList<Ships> arr, boolean amRevealed) {\n        int x = 0;\n        int y = 0;\n        int z = 0;\n        String direction = \"v\";\n        boolean isValid = false;\n        Scanner input = new Scanner(System.in);\n            while (!isValid) {\n            System.out.print((counter + 1) + \". \");\n            System.out.println(\"Input the X coordinate for the front of your \" + arr.get(counter).getClassType() + \". It must be between 0 and 9.\");\n            x = Integer.parseInt(input.nextLine());\n            System.out.println(\"Input the Y coordinate for the front of your \" + arr.get(counter).getClassType() + \". It must be between 0 and 9.\");\n            y = Integer.parseInt(input.nextLine());\n            System.out.println(\"Input the Z coordinate for the front of your \" + arr.get(counter).getClassType() + \". It must be between 0 and 9.\");\n            z = Integer.parseInt(input.nextLine());\n            System.out.println(\"Input the direction you would like your \" + arr.get(counter).getClassType() + \" to face. Input (v) for the ship to face vertically, and (h) for the ship to face horizontally.\");\n            direction = input.nextLine();\n\n            Coordinate[][][] tempMap = new Coordinate[17][17][11];\n            setMap(tempMap);\n            ArrayList<Coordinate> tempArr = new ArrayList<>();\n\n            if (direction.equals(\"v\")) {\n                for (int j = 0; j < arr.get(counter).getLen(); j++) {\n                    Coordinate tempCoord = new Coordinate(x, y + j, z, true, true, \"\\033[0;33m\");\n                    tempMap[x][y + j][z] = tempCoord;\n                    tempArr.add(tempCoord);\n                    System.out.println(tempCoord.toString());\n                }\n            } else {\n                for (int j = 0; j < arr.get(counter).getLen(); j++) {\n                    Coordinate tempCoord = new Coordinate(x + j, y , z, true, true, \"\\033[0;33m\");\n                    tempMap[x + j][y][z] = tempCoord;\n                    tempArr.add(tempCoord);\n                    System.out.println(tempCoord.toString());\n                }\n            }\n            isValid = placeCheck(map, tempArr);\n            if (isValid) {\n                arr.get(counter).setCoordArr(tempArr);\n                if (direction.equals(\"v\")) {\n                    for (int j = 0; j < arr.get(counter).getLen(); j++) {\n                        map[x][y + j][z] = arr.get(counter).getCoordArr().get(j);\n                    }\n                } else {\n                    for (int j = 0; j < arr.get(counter).getLen(); j++) {\n                        map[x + j][y][z] = arr.get(counter).getCoordArr().get(j);\n                    }\n                }\n                System.out.println(\"Your \" + arr.get(counter).getClassType() + \" has been deployed to the battlefield!\");\n                printMap(map);\n            }\n            else if (!isValid)\n            {\n                System.out.println(\"Error: Please reenter data for your \" + arr.get(counter).getClassType() + \".\");\n            }\n        }\n    }\n\n\n    public void play()\n    {\n        System.out.println(\"Your map currently looks like this:\");\n        printMap(map1);\n        System.out.println(\"The enemy's map currently looks like this:\");\n        printMap(map2);\n        p1.takeTurn(map2, arr2);\n        if(isGameOver())\n        {\n            printMap(map2);\n            System.out.println(p1.getUser() + \" has won!\");\n            p1.setShipsDestroyed();\n            p1.setGamesWon();\n            p2.setGamesLost();\n        }\n    }\n\n\n\n    public boolean isGameOver()\n    {\n        return true;\n    }\n\n\n    public void save()\n    {\n        saveData();\n        savePlayerArray();\n    }\n\n    public void savePlayerArray()\n    {\n        try {\n            File saveData = new File(\"src/arraySaver\");\n            saveData.createNewFile();\n            FileWriter writer = new FileWriter(\"src/arraySaver\");\n            for (Player v : s.getPlayerArr()) {\n                writer.write(v.getUser() + \"|\");\n                writer.write(v.getGamesWon() + \"|\");\n                writer.write(v.getGamesLost() + \"|\");\n                writer.write(v.getShipsDestroyed() + \"\\n\");\n            }\n            writer.close();\n        }\n        catch (IOException e)\n        {\n            System.out.print(\"Error: Cannot create file\");\n            e.printStackTrace();\n        }\n    }\n\n    public void saveData()\n    {\n        try {\n            File saveData = new File(\"src/leaderboard\");\n            saveData.createNewFile();\n            FileWriter writer = new FileWriter(\"src/leaderboard\");\n            for (Player v : s.getPlayerArr()) {\n                writer.write(\"<\" + v.getUser() + \"> \");\n                writer.write(\"<\" + v.getGamesWon() + \" Games Won> \");\n                writer.write(\"<\" + v.getGamesLost() + \" Games Lost> \");\n                writer.write(\"<\" + v.getShipsDestroyed() + \" Ships Destroyed> \\n\");\n            }\n            writer.close();\n        }\n        catch (IOException e)\n        {\n            System.out.print(\"Error: Cannot create file\");\n            e.printStackTrace();\n        }\n    }\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/MethodBank.java b/src/MethodBank.java
+--- a/src/MethodBank.java	(revision 9675126b763385934124065b8c9f0de0b8913db4)
++++ b/src/MethodBank.java	(date 1654576875759)
+@@ -74,8 +74,8 @@
+ 
+     public void Run() throws IOException {
+         this.setup();
+-        //System.out.print("\033[H\033[2J");
+-        //this.place();
++        System.out.print("\033[H\033[2J");
++        this.place();
+         System.out.print("\033[H\033[2J");
+         this.play();
+         this.save();
+@@ -285,7 +285,7 @@
+         String direction = "v";
+         boolean isValid = false;
+         Scanner input = new Scanner(System.in);
+-            while (!isValid) {
++        while (!isValid) {
+             System.out.print((counter + 1) + ". ");
+             System.out.println("Input the X coordinate for the front of your " + arr.get(counter).getClassType() + ". It must be between 0 and 9.");
+             x = Integer.parseInt(input.nextLine());
+@@ -340,26 +340,78 @@
+ 
+     public void play()
+     {
+-        System.out.println("Your map currently looks like this:");
+-        printMap(map1);
+-        System.out.println("The enemy's map currently looks like this:");
+-        printMap(map2);
+-        p1.takeTurn(map2, arr2);
+-        if(isGameOver())
+-        {
++        int counter = 1;
++        while (isGameOver() != true)
++        {
++            if (counter % 2 == 1)
++            {
++                System.out.println("Your map currently looks like this:");
++                printMap(map1);
++                System.out.println("The enemy's map currently looks like this:");
++                printMap(map2);
++                p1.takeTurn(map2, arr2);
++                counter++;
++                if (isGameOver())
++                {
++                    printMap(map2);
++                    break;
++                }
++            }
++            System.out.print("\033[H\033[2J");
+             printMap(map2);
+-            System.out.println(p1.getUser() + " has won!");
+-            p1.setShipsDestroyed();
+-            p1.setGamesWon();
+-            p2.setGamesLost();
+-        }
+-    }
+-
+-
+-
+-    public boolean isGameOver()
+-    {
+-        return true;
++
++            if (counter % 2 == 0)
++            {
++                System.out.println("Your map currently looks like this:");
++                printMap(map2);
++                System.out.println("The enemy's map currently looks like this:");
++                printMap(map1);
++                p2.takeTurn(map1, arr2);
++                counter++;
++                if (isGameOver())
++                {
++                    printMap(map1);
++                    break;
++                }
++            }
++            System.out.print("\033[H\033[2J");
++            printMap(map1);
++        }
++    }
++
++
++    public boolean isGameOver()
++    {
++        boolean output = false;
++        int counterOne = 0;
++        int counterTwo = 0;
++        for (Ships v : arr1) {
++            if (v.isDestroyed())
++            {
++                counterOne++;
++            }
++            if (counterOne == arr1.size())
++            {
++                output = true;
++                p2.setGamesWon();
++                p1.setGamesLost();
++                System.out.println(p2.getUser() + " has won!");
++            }
++        }
++        for (Ships v : arr2) {
++            if (v.isDestroyed())
++            {
++                counterTwo++;
++            }
++            if (counterTwo == arr2.size())
++            {
++                output = true;
++                p1.setGamesWon();
++                p2.setGamesLost();
++                System.out.println(p1.getUser() + " has won!");
++            }
++        }
++        return output;
+     }
+ 
+ 
