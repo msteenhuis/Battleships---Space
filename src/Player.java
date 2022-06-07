@@ -99,6 +99,7 @@ public class Player {
         int x = 0;
         int y = 0;
         int z = 0;
+        Ships damagedShips = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);
         System.out.println("Our battery is ready," + user + ". Enter the X coordinate to be fired upon. It must be between 0 and 9:");
         x = Integer.parseInt(input.nextLine());
         System.out.println("Enter the Y coordinate to be fired upon. It must be between 0 and 9:");
@@ -117,18 +118,15 @@ public class Player {
             else
             {
                 enemyMap[x][y][z].setColorIndicator("\u001B[31m");
-                Ships damagedShip = enemyMap[x][y][z].findShip(enemyShips, enemyMap[x][y][z], this);
-                if (damagedShip.isDestroyed())
+                if (damagedShips.isDestroyed())
                 {
-                    System.out.println("Your fleet has successfully destroyed the enemey's " + damagedShip.getClassType() + "!");
                     this.setShipsDestroyed();
                 }
             }
         }
-        else
-        {
-            System.out.println("It seems our fleet has missed");
-        }
+        System.out.println("Your fleet has successfully damaged the enemey's corvette!");
+        System.out.println("Your fleet has successfully destroyed the enemey's corvette!");
         enemyMap[x][y][z].setAmRevealed(true);
+        enemyMap[x][y][z].setColorIndicator("\u001B[31m");
     }
 }

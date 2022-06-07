@@ -74,8 +74,8 @@ public class MethodBank {
 
     public void Run() throws IOException {
         this.setup();
-        System.out.print("\033[H\033[2J");
-        this.place();
+        //System.out.print("\033[H\033[2J");
+        //this.place();
         System.out.print("\033[H\033[2J");
         this.play();
         this.save();
@@ -340,78 +340,26 @@ public class MethodBank {
 
     public void play()
     {
-        int counter = 1;
-        while (isGameOver() != true)
+        System.out.println("Your map currently looks like this:");
+        printMap(map1);
+        System.out.println("The enemy's map currently looks like this:");
+        printMap(map2);
+        p1.takeTurn(map2, arr2);
+        if(isGameOver())
         {
-            if (counter % 2 == 1)
-            {
-                System.out.println("Your map currently looks like this:");
-                printMap(map1);
-                System.out.println("The enemy's map currently looks like this:");
-                printMap(map2);
-                p1.takeTurn(map2, arr2);
-                counter++;
-                if (isGameOver())
-                {
-                    printMap(map2);
-                    break;
-                }
-            }
-            System.out.print("\033[H\033[2J");
             printMap(map2);
-
-            if (counter % 2 == 0)
-            {
-                System.out.println("Your map currently looks like this:");
-                printMap(map2);
-                System.out.println("The enemy's map currently looks like this:");
-                printMap(map1);
-                p2.takeTurn(map1, arr2);
-                counter++;
-                if (isGameOver())
-                {
-                    printMap(map1);
-                    break;
-                }
-            }
-            System.out.print("\033[H\033[2J");
-            printMap(map1);
+            System.out.println(p1.getUser() + " has won!");
+            p1.setShipsDestroyed();
+            p1.setGamesWon();
+            p2.setGamesLost();
         }
     }
 
 
+
     public boolean isGameOver()
     {
-        boolean output = false;
-        int counterOne = 0;
-        int counterTwo = 0;
-        for (Ships v : arr1) {
-            if (v.isDestroyed())
-            {
-                counterOne++;
-            }
-            if (counterOne == arr1.size())
-            {
-                output = true;
-                p2.setGamesWon();
-                p1.setGamesLost();
-                System.out.println(p2.getUser() + " has won!");
-            }
-        }
-        for (Ships v : arr2) {
-            if (v.isDestroyed())
-            {
-                counterTwo++;
-            }
-            if (counterTwo == arr2.size())
-            {
-                output = true;
-                p1.setGamesWon();
-                p2.setGamesLost();
-                System.out.println(p1.getUser() + " has won!");
-            }
-        }
-        return output;
+        return true;
     }
 
 
